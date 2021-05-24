@@ -564,6 +564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 515284838}
   - component: {fileID: 515284839}
+  - component: {fileID: 515284840}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -618,6 +619,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &515284840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515284837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e848cd00ba4e240bd14ebb1ec5fe10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &529797829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,7 +1784,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1432411296}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 515284840}
+        m_TargetAssemblyTypeName: Seagull.Visualisation.UserInterface.MainMenuController,
+          UserInterface
+        m_MethodName: CreateNewProject_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: CreateNewProject_Click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1432411296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2016,7 +2042,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1615643861}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 515284840}
+        m_TargetAssemblyTypeName: Seagull.Visualisation.UserInterface.MainMenuController,
+          UserInterface
+        m_MethodName: LoadProject_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: LoadProject_Click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1615643861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2585,7 +2624,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1963194611}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 515284840}
+        m_TargetAssemblyTypeName: Seagull.Visualisation.UserInterface.MainMenuController,
+          UserInterface
+        m_MethodName: SelectDemoProject_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SelectDemoProject_Click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1963194611
 MonoBehaviour:
   m_ObjectHideFlags: 0

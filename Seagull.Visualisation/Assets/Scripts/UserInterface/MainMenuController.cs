@@ -6,16 +6,20 @@ namespace Seagull.Visualisation.UserInterface
 {
     public class MainMenuController : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        public void CreateNewProject_Click()
         {
+            Debug.Log("Clicked 'Create new project'");
+            
+        }
         
+        public void LoadProject_Click()
+        {
+            Debug.Log("Clicked 'Load project'");
         }
 
-        // Update is called once per frame
-        void Update()
+        public void SelectDemoProject_Click()
         {
-        
+            Debug.Log("Clicked 'Select demo project'");
         }
     }
 }
