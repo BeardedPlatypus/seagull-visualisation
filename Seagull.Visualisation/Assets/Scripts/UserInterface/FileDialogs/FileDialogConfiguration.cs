@@ -25,7 +25,7 @@ namespace Seagull.Visualisation.UserInterface.FileDialogs
         /// The <see cref="ExtensionFilters"/> defaults to a single filter for all files.
         /// </remarks>
         public IList<ExtensionFilter> ExtensionFilters { get; set; } =
-            new[] {new ExtensionFilter("All Files", "*")};
+            new[] {ExtensionFilter.Predefined.AllFiles};
         
         /// <summary>
         /// The initial directory in which the dialog is opened.

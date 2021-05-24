@@ -2,7 +2,7 @@
 
 namespace Seagull.Visualisation.UserInterface.FileDialogs
 {
-    public class DialogService : IDialogService
+    public sealed class DialogService : IDialogService
     {
         private readonly IFileDialogService _fileDialogService;
 

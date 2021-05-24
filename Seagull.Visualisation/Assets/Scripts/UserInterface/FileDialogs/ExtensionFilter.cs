@@ -14,5 +14,13 @@ namespace Seagull.Visualisation.UserInterface.FileDialogs
         public string FileTypeDescription { get; }
         public IReadOnlyCollection<string> AssociatedFileExtensions { get; }
 
+        public static class Predefined
+        {
+            public static ExtensionFilter SeagullProjectFiles =>
+                new ExtensionFilter("Seagull project files", "seagull");
+            
+            public static ExtensionFilter AllFiles =>
+                new ExtensionFilter("All Files", "*");
+        }
     }
 }

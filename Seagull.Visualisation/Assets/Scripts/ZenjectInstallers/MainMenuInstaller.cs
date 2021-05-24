@@ -1,3 +1,4 @@
+using Seagull.Visualisation.UserInterface.FileDialogs;
 using UnityEngine;
 using Zenject;
 
@@ -7,8 +8,14 @@ namespace ZenjectInstallers
     {
         public override void InstallBindings()
         {
-            Container.Bind<string>().FromInstance("Hello World!");
-            Container.Bind<Greeter>().AsSingle().NonLazy();
+            Container.Bind<IFileDialogService>()
+                     .To<StandAloneFileBrowserFileDialogService>()
+                     .AsSingle();
+
+            Container.Bind<IDialogService>()
+                     .To<DialogService>()
+                     .AsSingle()
+                     .NonLazy();
         }
     }
 
