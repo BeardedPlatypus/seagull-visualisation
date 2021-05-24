@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Seagull.Visualisation.UserInterface.FileDialogs;
 using UnityEngine;
 using Zenject;
@@ -27,8 +28,6 @@ namespace Seagull.Visualisation.UserInterface
         public void CreateNewProject_Click() =>
             SetIsActiveMenu(createNewProjectMenu);
 
-        public void CreateNewProjectMenu_Back_Click() =>
-            SetIsActiveMenu(recentProjectsMenu);
 
         private void SetIsActiveMenu(GameObject menu)
         {
@@ -53,6 +52,28 @@ namespace Seagull.Visualisation.UserInterface
         public void SelectDemoProject_Click()
         {
             Debug.Log("Clicked 'Select demo project'");
+        }
+        
+        // TODO: Create a separate controller per menu?
+        // CreateNewProjectButtons
+        public void CreateNewProjectMenu_Back_Click() =>
+            SetIsActiveMenu(recentProjectsMenu);
+
+        public TMPro.TMP_InputField mapFilePath;
+        
+        public void SelectMapFile_Click()
+        {
+            var configuration = new FileDialogConfiguration
+            { 
+                ExtensionFilters = new[] 
+                {
+                    ExtensionFilter.Predefined.NetcdfFiles, 
+                    ExtensionFilter.Predefined.AllFiles,
+                }
+            };
+
+            var result = _dialogService.OpenFileDialog(configuration).FirstOrDefault();
+            mapFilePath.text = result ?? mapFilePath.text;
         }
     }
 }

@@ -2,7 +2,8 @@
     "name": "UserInterface",
     "rootNamespace": "Seagull.Visualisation",
     "references": [
-        "StandAloneBrowser"
+        "StandAloneBrowser",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor",

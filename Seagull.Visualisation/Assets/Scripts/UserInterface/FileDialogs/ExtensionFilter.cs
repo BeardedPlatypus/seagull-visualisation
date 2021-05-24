@@ -18,6 +18,9 @@ namespace Seagull.Visualisation.UserInterface.FileDialogs
         {
             public static ExtensionFilter SeagullProjectFiles =>
                 new ExtensionFilter("Seagull project files", "seagull");
+
+            public static ExtensionFilter NetcdfFiles =>
+                new ExtensionFilter("NetCDF files", "nc");
             
             public static ExtensionFilter AllFiles =>
                 new ExtensionFilter("All Files", "*");
