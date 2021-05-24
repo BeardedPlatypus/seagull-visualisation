@@ -11,7 +11,7 @@ namespace StandaloneFileBrowser {
         }
     }
 
-    public class StandaloneFileBrowser {
+    public static class StandaloneFileBrowser {
         private static IStandaloneFileBrowser _platformWrapper = null;
 
         static StandaloneFileBrowser() {
