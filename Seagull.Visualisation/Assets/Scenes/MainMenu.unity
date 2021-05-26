@@ -2570,7 +2570,7 @@ MonoBehaviour:
   m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
-  m_ReadOnly: 0
+  m_ReadOnly: 1
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: a1da43d0054a1024f9c2447f4057fe2a, type: 2}
   m_OnFocusSelectAll: 1
@@ -3498,7 +3498,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a1da43d0054a1024f9c2447f4057fe2a, type: 2}
   m_sharedMaterial: {fileID: 2722896603529526879, guid: a1da43d0054a1024f9c2447f4057fe2a, type: 2}
