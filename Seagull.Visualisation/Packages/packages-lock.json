@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.beardedplatypus.filebrowser": {
+      "version": "https://github.com/BeardedPlatypus/unity-file-browser.git#upm/main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "9729f626b0b456955829003d3864b798f28ef699"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
