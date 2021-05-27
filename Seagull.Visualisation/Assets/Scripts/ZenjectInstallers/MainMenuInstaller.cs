@@ -9,7 +9,7 @@ namespace ZenjectInstallers
         public override void InstallBindings()
         {
             Container.Bind<IFileDialogService>()
-                     .To<StandAloneFileBrowserFileDialogService>()
+                     .To<FileDialogService>()
                      .AsSingle();
 
             Container.Bind<IDialogService>()

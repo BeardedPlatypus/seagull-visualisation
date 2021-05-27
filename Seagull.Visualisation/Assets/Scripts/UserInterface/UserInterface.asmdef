@@ -3,7 +3,7 @@
     "rootNamespace": "Seagull.Visualisation",
     "references": [
         "Unity.TextMeshPro",
-        "BeardedPlatypus.FileBrowser.Runtime"
+        "BeardedPlatypus.FileBrowser"
     ],
     "includePlatforms": [
         "Editor",
