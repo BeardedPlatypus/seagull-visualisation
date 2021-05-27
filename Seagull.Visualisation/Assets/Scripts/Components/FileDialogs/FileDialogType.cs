@@ -1,4 +1,4 @@
-﻿namespace Seagull.Visualisation.UserInterface.FileDialogs
+﻿namespace Seagull.Visualisation.Components.FileDialogs
 {
     public enum FileDialogType
     {

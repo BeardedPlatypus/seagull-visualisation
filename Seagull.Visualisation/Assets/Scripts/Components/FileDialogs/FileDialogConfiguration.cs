@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Seagull.Visualisation.UserInterface.FileDialogs
+namespace Seagull.Visualisation.Components.FileDialogs
 {
     /// <summary>
     /// The <see cref="FileDialogConfiguration"/> defines the values used to

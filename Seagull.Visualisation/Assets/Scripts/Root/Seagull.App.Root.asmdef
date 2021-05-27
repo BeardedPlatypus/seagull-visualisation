@@ -1,0 +1,17 @@
+{
+    "name": "Seagull.Visualisation.Root",
+    "rootNamespace": "Seagull.Visualisation",
+    "references": [
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:87f2aa2e75a873641a817c2d1cb5ded2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

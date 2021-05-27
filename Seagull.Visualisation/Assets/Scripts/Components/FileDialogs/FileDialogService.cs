@@ -2,7 +2,7 @@
 using System.Linq;
 using BeardedPlatypus.FileBrowser;
 
-namespace Seagull.Visualisation.UserInterface.FileDialogs
+namespace Seagull.Visualisation.Components.FileDialogs
 {
     public sealed class FileDialogService : IFileDialogService
     {

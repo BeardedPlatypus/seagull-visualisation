@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Seagull.Visualisation.UserInterface.FileDialogs
+namespace Seagull.Visualisation.Components.FileDialogs
 {
     public sealed class DialogService : IDialogService
     {

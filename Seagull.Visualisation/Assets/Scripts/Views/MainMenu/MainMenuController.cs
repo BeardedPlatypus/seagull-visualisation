@@ -1,10 +1,9 @@
-using System;
 using System.Linq;
-using Seagull.Visualisation.UserInterface.FileDialogs;
+using Seagull.Visualisation.Components.FileDialogs;
 using UnityEngine;
 using Zenject;
 
-namespace Seagull.Visualisation.UserInterface
+namespace Seagull.Visualisation.Views.MainMenu
 {
     public class MainMenuController : MonoBehaviour
     {

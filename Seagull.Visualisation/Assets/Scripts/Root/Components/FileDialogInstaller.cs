@@ -1,10 +1,9 @@
-using Seagull.Visualisation.UserInterface.FileDialogs;
-using UnityEngine;
+using Seagull.Visualisation.Components.FileDialogs;
 using Zenject;
 
-namespace ZenjectInstallers
+namespace Seagull.Visualisation.Root.Components
 {
-    public class MainMenuInstaller : MonoInstaller
+    public class FileDialogInstaller : MonoInstaller
     {
         public override void InstallBindings()
         {
@@ -16,14 +15,6 @@ namespace ZenjectInstallers
                      .To<DialogService>()
                      .AsSingle()
                      .NonLazy();
-        }
-    }
-
-    public class Greeter
-    {
-        public Greeter(string message)
-        {
-            Debug.Log(message);
         }
     }
 }
