@@ -35,7 +35,7 @@ namespace Seagull.Visualisation.Components.Loading
         {
             // Load loading screen
             yield return StartCoroutine(_fader.FadeTo(1.0F, fadeInTime));
-            yield return SceneManager.LoadSceneAsync("LoadingScreenScene",
+            yield return SceneManager.LoadSceneAsync("LoadScreen",
                                                      LoadSceneMode.Single);
             yield return StartCoroutine(_fader.FadeTo(0.0F, fadeOutTime));
 
