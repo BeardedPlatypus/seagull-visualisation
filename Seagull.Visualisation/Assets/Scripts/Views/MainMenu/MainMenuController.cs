@@ -1,5 +1,6 @@
 using System.Linq;
 using Seagull.Visualisation.Components.FileDialogs;
+using Seagull.Visualisation.Components.Loading;
 using UnityEngine;
 using Zenject;
 
@@ -12,11 +13,15 @@ namespace Seagull.Visualisation.Views.MainMenu
         // TODO: introduce some underlying state for this?
         public GameObject recentProjectsMenu;
         public GameObject createNewProjectMenu;
+
+        private SceneTransitionManager _sceneTransitionManager;
         
         [Inject]
-        public void Init(IDialogService dialogService)
+        public void Init(IDialogService dialogService,
+                         SceneTransitionManager sceneTransitionManager)
         {
             _dialogService = dialogService;
+            _sceneTransitionManager = sceneTransitionManager;
         }
 
         private void Start()
@@ -74,5 +79,8 @@ namespace Seagull.Visualisation.Views.MainMenu
             var result = _dialogService.OpenFileDialog(configuration).FirstOrDefault();
             mapFilePath.text = result ?? mapFilePath.text;
         }
+
+        public void CreateProject_Click() =>
+            _sceneTransitionManager.LoadScene(new CreateProjectToProjectTransition());
     }
 }

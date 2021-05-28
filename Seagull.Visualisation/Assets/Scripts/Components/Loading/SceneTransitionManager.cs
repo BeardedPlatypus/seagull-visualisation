@@ -31,11 +31,13 @@ namespace Seagull.Visualisation.Components.Loading
         public void LoadScene(ISceneTransitionDescription sceneTransitionDescription) =>
             StartCoroutine(LoadSceneAsync(sceneTransitionDescription));
 
+        private const string LoadScreenName = "LoadScreen";
+
         private IEnumerator LoadSceneAsync(ISceneTransitionDescription sceneTransitionBehaviour)
         {
             // Load loading screen
             yield return StartCoroutine(_fader.FadeTo(1.0F, fadeInTime));
-            yield return SceneManager.LoadSceneAsync("LoadScreen",
+            yield return SceneManager.LoadSceneAsync(LoadScreenName,
                                                      LoadSceneMode.Single);
             yield return StartCoroutine(_fader.FadeTo(0.0F, fadeOutTime));
 
@@ -47,7 +49,7 @@ namespace Seagull.Visualisation.Components.Loading
             
             // Unload loading screen
             yield return StartCoroutine(_fader.FadeTo(1.0F, fadeInTime));
-            yield return SceneManager.UnloadSceneAsync("LoadingScreenScene");
+            yield return SceneManager.UnloadSceneAsync(LoadScreenName);
             yield return StartCoroutine(_fader.FadeTo(0.0F, fadeOutTime));
         }
     }

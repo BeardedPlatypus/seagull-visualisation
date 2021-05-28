@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 2023817120894969147}
   - component: {fileID: 2023817120894969145}
   - component: {fileID: 2023817120894969146}
+  - component: {fileID: 2286328440481267701}
   m_Layer: 5
   m_Name: FaderImage
   m_TagString: Untagged
@@ -221,3 +222,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2286328440481267701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023817120894969148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e4928e886d3ad4ab4d26b715aee5cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
