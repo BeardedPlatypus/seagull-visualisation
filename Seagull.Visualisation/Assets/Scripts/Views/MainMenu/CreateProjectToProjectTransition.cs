@@ -7,14 +7,14 @@ namespace Seagull.Visualisation.Views.MainMenu
     {
         public string SceneName => "ProjectEditor";
         
-        public IEnumerator PreSceneLoadCoroutine()
+        public IEnumerator PreSceneLoadCoroutine
         {
-            yield break;
+            get { yield break; }
         }
 
-        public IEnumerator PostSceneLoadCoroutine()
+        public IEnumerator PostSceneLoadCoroutine
         {
-            yield break;
+            get { yield break; }
         }
     }
 }

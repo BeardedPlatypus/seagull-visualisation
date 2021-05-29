@@ -42,10 +42,10 @@ namespace Seagull.Visualisation.Components.Loading
             yield return StartCoroutine(_fader.FadeTo(0.0F, fadeOutTime));
 
             // Load actual scene
-            yield return StartCoroutine(sceneTransitionBehaviour.PreSceneLoadCoroutine());
+            yield return StartCoroutine(sceneTransitionBehaviour.PreSceneLoadCoroutine);
             yield return SceneManager.LoadSceneAsync(sceneTransitionBehaviour.SceneName,
                                                      LoadSceneMode.Additive);
-            yield return StartCoroutine(sceneTransitionBehaviour.PostSceneLoadCoroutine());
+            yield return StartCoroutine(sceneTransitionBehaviour.PostSceneLoadCoroutine);
             
             // Unload loading screen
             yield return StartCoroutine(_fader.FadeTo(1.0F, fadeInTime));
