@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 namespace Seagull.Visualisation.Components.Loading
 {
+    /// <summary>
+    /// <see cref="Fader"/> is a behaviour to fade an <see cref="Image"/>
+    /// attached to the  <see cref="GameObject"/> from the current alpha,
+    /// to a given other alpha over a set amount of time.
+    /// </summary>
     [RequireComponent(typeof(Image))]
     public class Fader : MonoBehaviour
     {
@@ -14,6 +19,17 @@ namespace Seagull.Visualisation.Components.Loading
             _image = GetComponent<Image>();
         }
 
+        /// <summary>
+        /// Coroutine to fade the image of this <see cref="Fader"/> to the
+        /// specified <paramref name="alphaVal"/> over the specified amount
+        /// of time.
+        /// </summary>
+        /// <param name="alphaVal">The goal alpha value.</param>
+        /// <param name="totalTime">The amount of time over which to fade.</param>
+        /// <returns>
+        /// The coroutine to fade the image over the specified amount of time
+        /// to the specified alpha value.
+        /// </returns>
         public IEnumerator FadeTo(float alphaVal, float totalTime)
         {
             var timeFactor = 1.0F / totalTime;
