@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 namespace Seagull.Visualisation.Components.Loading
 {
+    /// <summary>
+    /// <see cref="SceneTransitionManager"/> implements the logic to transition from
+    /// one scene to another with the use of a loading screen.
+    /// </summary>
     public sealed class SceneTransitionManager : MonoBehaviour
     {
         public float fadeInTime = 0.5F; 
@@ -28,6 +32,12 @@ namespace Seagull.Visualisation.Components.Loading
             _fader = GetComponentInChildren<Fader>();
         }
 
+        /// <summary>
+        /// Load the scene described by the <paramref name="sceneTransitionDescription"/>.
+        /// </summary>
+        /// <param name="sceneTransitionDescription">
+        /// The description of the transition.
+        /// </param>
         public void LoadScene(ISceneTransitionDescription sceneTransitionDescription) =>
             StartCoroutine(LoadSceneAsync(sceneTransitionDescription));
 
