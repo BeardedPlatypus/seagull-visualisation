@@ -7,6 +7,38 @@
       "dependencies": {},
       "hash": "06fb9507d6cec11f59842a3b5983960c786f07b5"
     },
+    "com.beardedplatypus.fsharp.core": {
+      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/fsharp",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a015906e8658692625652e92e1d02870fa17062a"
+    },
+    "com.beardedplatypus.newtonsoft.json": {
+      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/json",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "6d6f022b48f5859cb0a3663d42c32d740ca67408"
+    },
+    "com.beardedplatypus.pathlib": {
+      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/pathlib",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e2adea502c01781d38283c26e1d6c265f641875b"
+    },
+    "com.beardedplatypus.seagull.visualisation.core": {
+      "version": "https://github.com/BeardedPlatypus/seagull-visualisation.core.git#upm/development",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.beardedplatypus.fsharp.core": "5.0.1",
+        "com.beardedplatypus.newtonsoft.json": "13.0.1",
+        "com.beardedplatypus.pathlib": "0.9.6"
+      },
+      "hash": "c9c40b4161ea80643b12bfedca9dd0da3a5d7eb1"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

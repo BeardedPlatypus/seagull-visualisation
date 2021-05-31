@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "com.beardedplatypus.filebrowser": "https://github.com/BeardedPlatypus/unity-file-browser.git#upm/main",
+    "com.beardedplatypus.fsharp.core": "https://github.com/BeardedPlatypus/upm-packages.git#upm/fsharp",
+    "com.beardedplatypus.newtonsoft.json": "https://github.com/BeardedPlatypus/upm-packages.git#upm/json",
+    "com.beardedplatypus.pathlib": "https://github.com/BeardedPlatypus/upm-packages.git#upm/pathlib",
+    "com.beardedplatypus.seagull.visualisation.core": "https://github.com/BeardedPlatypus/seagull-visualisation.core.git#upm/development",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.3.9",
     "com.unity.ide.rider": "2.0.7",
