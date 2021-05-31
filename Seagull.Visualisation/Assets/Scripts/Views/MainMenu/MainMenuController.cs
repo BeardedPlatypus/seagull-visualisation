@@ -1,8 +1,9 @@
-using System;
+using System.Collections;
 using System.Linq;
 using JetBrains.Annotations;
 using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
+using Seagull.Visualisation.Core.Application;
 using Seagull.Visualisation.Views.MainMenu.CreateProjects;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,7 @@ namespace Seagull.Visualisation.Views.MainMenu
     {
         private IDialogService _dialogService;
         private NewProjectState.Factory _newProjectStateFactory;
+        private IProjectService _projectService;
 
         // TODO: introduce some underlying state for this?
         public GameObject recentProjectsMenu;
@@ -34,11 +36,13 @@ namespace Seagull.Visualisation.Views.MainMenu
         [Inject]
         public void Init(IDialogService dialogService,
                          SceneTransitionManager sceneTransitionManager,
-                         NewProjectState.Factory newProjectStateFactory)
+                         NewProjectState.Factory newProjectStateFactory,
+                         IProjectService projectService)
         {
             _dialogService = dialogService;
             _sceneTransitionManager = sceneTransitionManager;
             _newProjectStateFactory = newProjectStateFactory;
+            _projectService = projectService;
         }
 
 
@@ -128,7 +132,31 @@ namespace Seagull.Visualisation.Views.MainMenu
             RefreshCreateNewProjectView();
         }
 
+        private ISceneTransitionDescription GetCreateProjectTransitionDescription()
+        {
+            IEnumerator PreLoad()
+            {
+                if (ProjectState == null)
+                {
+                    yield break;
+                }
+
+                yield return null;
+                _projectService.CreateProject(ProjectState.ProjectPath);
+            }
+
+            IEnumerator PostLoad()
+            {
+                yield break;
+            }
+
+            return new SceneTransitionDescription("ProjectEditor", 
+                                                  PreLoad(), 
+                                                  PostLoad());
+        }
+        
+
         public void CreateProject_Click() =>
-            _sceneTransitionManager.LoadScene(new CreateProjectToProjectTransition());
+            _sceneTransitionManager.LoadScene(GetCreateProjectTransitionDescription());
     }
 }
