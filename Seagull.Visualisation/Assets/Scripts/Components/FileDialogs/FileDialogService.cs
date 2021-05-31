@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using BeardedPlatypus.FileBrowser;
+using PathLib;
 
 namespace Seagull.Visualisation.Components.FileDialogs
 {
     public sealed class FileDialogService : IFileDialogService
     {
-        public IEnumerable<string> Open(FileDialogConfiguration configuration) =>
-            FileBrowserService.OpenFileDialog(Convert(configuration));
+        public IEnumerable<IPath> Open(FileDialogConfiguration configuration) =>
+            FileBrowserService.OpenFileDialog(Convert(configuration))
+                              .Select(PathLib.Paths.Create);
 
         private static BeardedPlatypus.FileBrowser.Configurations.FileDialogConfiguration Convert(
             FileDialogConfiguration configuration) =>

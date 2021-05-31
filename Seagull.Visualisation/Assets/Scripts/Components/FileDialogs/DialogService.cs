@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PathLib;
 
 namespace Seagull.Visualisation.Components.FileDialogs
 {
@@ -11,7 +12,7 @@ namespace Seagull.Visualisation.Components.FileDialogs
             _fileDialogService = fileDialogService;
         }
 
-        public IEnumerable<string> OpenFileDialog(FileDialogConfiguration configuration) =>
+        public IEnumerable<IPath> OpenFileDialog(FileDialogConfiguration configuration) =>
             _fileDialogService.Open(configuration);
     }
 }
