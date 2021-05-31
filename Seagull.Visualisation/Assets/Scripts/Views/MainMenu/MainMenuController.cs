@@ -63,12 +63,32 @@ namespace Seagull.Visualisation.Views.MainMenu
         public void CreateNewProjectMenu_Back_Click() =>
             SetIsActiveMenu(recentProjectsMenu);
 
+        public TMPro.TMP_InputField projectFilePath;
+        
+        public void SelectProjectFile_Click()
+        {
+            var configuration = new FileDialogConfiguration
+            { 
+                Title = "Select seagull project location",
+                FileDialogType = FileDialogType.Save,
+                ExtensionFilters = new[] 
+                {
+                    ExtensionFilter.Predefined.SeagullProjectFiles, 
+                    ExtensionFilter.Predefined.AllFiles,
+                }
+            };
+
+            var result = _dialogService.OpenFileDialog(configuration).FirstOrDefault();
+            projectFilePath.text = result ?? projectFilePath.text;
+        }
+        
         public TMPro.TMP_InputField mapFilePath;
         
         public void SelectMapFile_Click()
         {
             var configuration = new FileDialogConfiguration
             { 
+                Title = "Select map file",
                 ExtensionFilters = new[] 
                 {
                     ExtensionFilter.Predefined.NetcdfFiles, 
