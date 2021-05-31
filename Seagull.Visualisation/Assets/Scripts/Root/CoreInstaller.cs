@@ -1,0 +1,26 @@
+using Seagull.Visualisation.Core.Application;
+using Seagull.Visualisation.Core.Persistence;
+using Seagull.Visualisation.Core.Persistence.AppDataRepository;
+using Seagull.Visualisation.Core.Persistence.Projects;
+using Zenject;
+
+namespace Seagull.Visualisation.Root
+{
+    public class CoreInstaller : MonoInstaller
+    {
+        public override void InstallBindings()
+        {
+            Container.Bind<IAppDataRepository>()
+                     .To<AppDataRepositoryJson>()
+                     .AsSingle();
+            
+            Container.Bind<IRecentProjectsService>()
+                     .To<RecentProjectServiceJson>()
+                     .AsSingle();
+            
+            Container.Bind<IProjectService>()
+                     .To<ProjectServiceJson>()
+                     .AsSingle();
+        }
+    }
+}
