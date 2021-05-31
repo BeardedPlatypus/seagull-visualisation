@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using PathLib;
 using Zenject;
 
@@ -5,7 +6,7 @@ namespace Seagull.Visualisation.Views.MainMenu.CreateProjects
 {
     public sealed class NewProjectState
     {
-        public IPath ProjectPath { get; private set; }
+        [CanBeNull] public IPath ProjectPath { get; private set; } = null;
 
         public void ConfigureProjectPath(IPath projectPath)
         {
@@ -18,8 +19,8 @@ namespace Seagull.Visualisation.Views.MainMenu.CreateProjects
 
             ProjectPath = projectPath;
         }
-        
-        public bool ShouldCreateNewSolutionDirectory { get; private set; }
+
+        public bool ShouldCreateNewSolutionDirectory { get; private set; } = false;
 
         public void ConfigureCreateNewSolutionDirectory(bool newValue)
         {
@@ -39,8 +40,8 @@ namespace Seagull.Visualisation.Views.MainMenu.CreateProjects
         
         private static IPath RemoveProjectDirToPath(IPath path) =>
             path.Parent(2).Join(path.Filename);
-        
-        public IPath MapFilePath { get; set; }
+
+        [CanBeNull] public IPath MapFilePath { get; set; } = null;
         
         public class Factory : PlaceholderFactory<NewProjectState> { }
     }

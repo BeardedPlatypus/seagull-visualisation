@@ -1,6 +1,9 @@
+using System;
 using System.Linq;
+using JetBrains.Annotations;
 using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
+using Seagull.Visualisation.Views.MainMenu.CreateProjects;
 using UnityEngine;
 using Zenject;
 
@@ -9,28 +12,47 @@ namespace Seagull.Visualisation.Views.MainMenu
     public class MainMenuController : MonoBehaviour
     {
         private IDialogService _dialogService;
+        private NewProjectState.Factory _newProjectStateFactory;
 
         // TODO: introduce some underlying state for this?
         public GameObject recentProjectsMenu;
         public GameObject createNewProjectMenu;
 
         private SceneTransitionManager _sceneTransitionManager;
+
+        [CanBeNull]
+        private NewProjectState ProjectState { get; set; }
+        
+        private void RefreshCreateNewProjectView()
+        {
+            if (ProjectState == null) return;
+
+            projectFilePath.text = ProjectState.ProjectPath?.ToString() ?? "";
+            mapFilePath.text = ProjectState.MapFilePath?.ToString() ?? "";
+        }
         
         [Inject]
         public void Init(IDialogService dialogService,
-                         SceneTransitionManager sceneTransitionManager)
+                         SceneTransitionManager sceneTransitionManager,
+                         NewProjectState.Factory newProjectStateFactory)
         {
             _dialogService = dialogService;
             _sceneTransitionManager = sceneTransitionManager;
+            _newProjectStateFactory = newProjectStateFactory;
         }
+
 
         private void Start()
         {
             SetIsActiveMenu(recentProjectsMenu);
         }
 
-        public void CreateNewProject_Click() =>
+        public void CreateNewProject_Click()
+        {
             SetIsActiveMenu(createNewProjectMenu);
+            ProjectState = _newProjectStateFactory.Create();
+            RefreshCreateNewProjectView();
+        }
 
 
         private void SetIsActiveMenu(GameObject menu)
@@ -67,6 +89,8 @@ namespace Seagull.Visualisation.Views.MainMenu
         
         public void SelectProjectFile_Click()
         {
+            if (ProjectState == null) return;
+            
             var configuration = new FileDialogConfiguration
             { 
                 Title = "Select seagull project location",
@@ -79,13 +103,16 @@ namespace Seagull.Visualisation.Views.MainMenu
             };
 
             var result = _dialogService.OpenFileDialog(configuration).FirstOrDefault();
-            projectFilePath.text = result ?? projectFilePath.text;
+            ProjectState?.ConfigureProjectPath(result);
+            RefreshCreateNewProjectView();
         }
         
         public TMPro.TMP_InputField mapFilePath;
         
         public void SelectMapFile_Click()
         {
+            if (ProjectState == null) return;
+            
             var configuration = new FileDialogConfiguration
             { 
                 Title = "Select map file",
@@ -97,7 +124,8 @@ namespace Seagull.Visualisation.Views.MainMenu
             };
 
             var result = _dialogService.OpenFileDialog(configuration).FirstOrDefault();
-            mapFilePath.text = result ?? mapFilePath.text;
+            ProjectState.MapFilePath = result;
+            RefreshCreateNewProjectView();
         }
 
         public void CreateProject_Click() =>
