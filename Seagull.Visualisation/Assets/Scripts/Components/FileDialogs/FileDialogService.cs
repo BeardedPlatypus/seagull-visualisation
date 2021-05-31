@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BeardedPlatypus.FileBrowser;
 
@@ -15,6 +16,7 @@ namespace Seagull.Visualisation.Components.FileDialogs
             {
                 Title = configuration.Title,
                 InitialDirectory = configuration.InitialDirectory,
+                FileDialogType = Convert(configuration.FileDialogType),
                 ExtensionFilters = configuration.ExtensionFilters.Select(Convert).ToArray(),
                 Multiselect = configuration.HasMultiSelect,
             };
@@ -22,5 +24,13 @@ namespace Seagull.Visualisation.Components.FileDialogs
         private static BeardedPlatypus.FileBrowser.ExtensionFilter Convert(ExtensionFilter filter) => 
             new BeardedPlatypus.FileBrowser.ExtensionFilter(filter.FileTypeDescription,
                                                             filter.AssociatedFileExtensions.ToArray());
+
+        private static BeardedPlatypus.FileBrowser.FileDialogType Convert(FileDialogType t) =>
+            t switch
+            {
+                FileDialogType.Open => BeardedPlatypus.FileBrowser.FileDialogType.Open,
+                FileDialogType.Save => BeardedPlatypus.FileBrowser.FileDialogType.Save,
+                _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+            };
     }
 }
