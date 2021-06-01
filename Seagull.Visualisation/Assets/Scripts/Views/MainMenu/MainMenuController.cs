@@ -65,6 +65,23 @@ namespace Seagull.Visualisation.Views.MainMenu
             createNewProjectMenu.SetActive(menu == createNewProjectMenu);
         }
         
+        private ISceneTransitionDescription GetLoadProjectTransitionDescription()
+        {
+            IEnumerator PreLoad()
+            {
+                yield break;
+            }
+
+            IEnumerator PostLoad()
+            {
+                yield break;
+            }
+
+            return new SceneTransitionDescription("ProjectEditor", 
+                                                  PreLoad(), 
+                                                  PostLoad());
+        }
+        
         public void LoadProject_Click()
         {
             var configuration = new FileDialogConfiguration
@@ -76,7 +93,12 @@ namespace Seagull.Visualisation.Views.MainMenu
                 }
             };
             
-            var _ = _dialogService.OpenFileDialog(configuration);
+            var path = _dialogService.OpenFileDialog(configuration).FirstOrDefault();
+
+            if (path != null)
+            {
+                _sceneTransitionManager.LoadScene(GetLoadProjectTransitionDescription());
+            }
         }
 
         public void SelectDemoProject_Click()
