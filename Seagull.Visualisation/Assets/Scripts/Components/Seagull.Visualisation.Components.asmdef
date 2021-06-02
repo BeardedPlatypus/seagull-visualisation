@@ -2,7 +2,8 @@
     "name": "Seagull.Visualisation.Components",
     "rootNamespace": "Seagull.Visualisation",
     "references": [
-        "GUID:17933ab8b08e181498c882e21978b648"
+        "GUID:17933ab8b08e181498c882e21978b648",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
