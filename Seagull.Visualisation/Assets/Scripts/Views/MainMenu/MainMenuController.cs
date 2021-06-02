@@ -4,16 +4,17 @@ using JetBrains.Annotations;
 using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
 using Seagull.Visualisation.Core.Application;
-using Seagull.Visualisation.Views.MainMenu.CreateProjects;
 using UnityEngine;
 using Zenject;
+
+using NewProjectPage = Seagull.Visualisation.Views.MainMenu.NewProjectPage;
 
 namespace Seagull.Visualisation.Views.MainMenu
 {
     public class MainMenuController : MonoBehaviour
     {
         private IDialogService _dialogService;
-        private NewProjectState.Factory _newProjectStateFactory;
+        private NewProjectPage.State.Factory _newProjectStateFactory;
         private IProjectService _projectService;
 
         // TODO: introduce some underlying state for this?
@@ -23,7 +24,7 @@ namespace Seagull.Visualisation.Views.MainMenu
         private SceneTransitionManager _sceneTransitionManager;
 
         [CanBeNull]
-        private NewProjectState ProjectState { get; set; }
+        private NewProjectPage.State ProjectState { get; set; }
         
         private void RefreshCreateNewProjectView()
         {
@@ -36,7 +37,7 @@ namespace Seagull.Visualisation.Views.MainMenu
         [Inject]
         public void Init(IDialogService dialogService,
                          SceneTransitionManager sceneTransitionManager,
-                         NewProjectState.Factory newProjectStateFactory,
+                         NewProjectPage.State.Factory newProjectStateFactory,
                          IProjectService projectService)
         {
             _dialogService = dialogService;
