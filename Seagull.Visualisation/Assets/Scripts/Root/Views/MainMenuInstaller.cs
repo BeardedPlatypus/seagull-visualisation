@@ -1,13 +1,24 @@
-using Seagull.Visualisation.Views.MainMenu.CreateProjects;
 using Zenject;
+
+using NewProjectPage = Seagull.Visualisation.Views.MainMenu.NewProjectPage;
+using OpeningPage = Seagull.Visualisation.Views.MainMenu.OpeningPage;
+using PageState = Seagull.Visualisation.Views.MainMenu.PageState;
 
 namespace Seagull.Visualisation.Root.Views
 {
     public class MainMenuInstaller : MonoInstaller
     {
+        public NewProjectPage.Bindings newProjectBindings;
+        public OpeningPage.Bindings openingPageBindings;
+
+        public PageState.Controller pageStateController;
+        
         public override void InstallBindings()
         {
-            Container.BindFactory<NewProjectState, NewProjectState.Factory>();
+            Container.BindFactory<NewProjectPage.State, NewProjectPage.State.Factory>();
+            Container.Bind<NewProjectPage.Bindings>().FromInstance(newProjectBindings);
+            Container.Bind<OpeningPage.Bindings>().FromInstance(openingPageBindings);
+            Container.Bind<PageState.Controller>().FromInstance(pageStateController);
         }
     }
 }
