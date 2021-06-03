@@ -6,22 +6,12 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 {
     public sealed class State
     {
-        [CanBeNull] public IPath ProjectPath { get; private set; } = null;
-
-        public void ConfigureProjectPath(IPath projectPath)
-        {
-            projectPath = projectPath.WithExtension(".seagull");
-
-            if (ShouldCreateNewSolutionDirectory)
-            {
-                projectPath = AddProjectDirToPath(projectPath);
-            }
-
-            ProjectPath = projectPath;
-        }
+        [CanBeNull] public IPath ProjectPath { get; set; } = null;
+        [CanBeNull] public IPath MapFilePath { get; set; } = null;
 
         public bool ShouldCreateNewSolutionDirectory { get; private set; } = false;
 
+        // TODO: move this to the controller
         public void ConfigureCreateNewSolutionDirectory(bool newValue)
         {
             if (newValue == ShouldCreateNewSolutionDirectory)
@@ -41,7 +31,6 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         private static IPath RemoveProjectDirToPath(IPath path) =>
             path.Parent(2).Join(path.Filename);
 
-        [CanBeNull] public IPath MapFilePath { get; set; } = null;
         
         public class Factory : PlaceholderFactory<State> { }
     }

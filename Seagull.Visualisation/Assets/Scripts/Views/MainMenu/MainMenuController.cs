@@ -130,7 +130,7 @@ namespace Seagull.Visualisation.Views.MainMenu
             };
 
             var result = _dialogService.OpenFileDialog(configuration).FirstOrDefault();
-            ProjectState?.ConfigureProjectPath(result);
+            //ProjectState?.ConfigureProjectPath(result);
             RefreshCreateNewProjectView();
         }
         

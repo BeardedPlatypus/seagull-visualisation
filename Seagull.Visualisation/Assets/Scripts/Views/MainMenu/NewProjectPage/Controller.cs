@@ -94,11 +94,30 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
             public void HandleValidOperation(IPath path) 
             {
-                _parent._state?.ConfigureProjectPath(path);
+                if (_parent._state != null)
+                {
+                    _parent._state.ProjectPath = path;
+                }
             }
 
             public bool ValidatePath(IPath path) => !path.Exists();
-            public IPath TransformPath(IPath path) => path;
+
+            public IPath TransformPath(IPath path)
+            {
+                path = AddProjectExtension(path);
+
+                if (_parent._state?.ShouldCreateNewSolutionDirectory ?? false)
+                {
+                    path = AddProjectDir(path);
+                }
+
+                return path;
+            }
+
+            private static IPath AddProjectExtension(IPath path) => 
+                path.WithExtension(".seagull");
+            private static IPath AddProjectDir(IPath path) => 
+                path.Parent().Join(path.Basename).Join(path.Filename);
         }
 
         private class MapFileLocationHandler : IFileSelectionHandler
