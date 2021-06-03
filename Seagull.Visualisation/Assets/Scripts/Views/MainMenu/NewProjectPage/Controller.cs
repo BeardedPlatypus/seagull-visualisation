@@ -59,8 +59,8 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
         private void Start()
         {
-            _bindings.projectLocation.Handler = new ProjectLocationHandler();
-            _bindings.mapFileLocation.Handler = new MapFileLocationHandler();
+            _bindings.projectLocation.Handler = new ProjectLocationHandler(this);
+            _bindings.mapFileLocation.Handler = new MapFileLocationHandler(this);
             _bindings.createProjectButton.onClick.AddListener(OnCreateProjectButtonClick);
             _bindings.backButton.onClick.AddListener(OnBackButtonClick);
         }
@@ -71,6 +71,10 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
         private class ProjectLocationHandler : IFileSelectionHandler
         {
+            private readonly Controller _parent;
+
+            public ProjectLocationHandler(Controller parent) => _parent = parent;
+            
             public FileDialogConfiguration Configuration { get; } =
                 new FileDialogConfiguration
                 { 
@@ -88,9 +92,9 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
                 // no-op
             }
 
-            public void HandleValidOperation(IPath path)
+            public void HandleValidOperation(IPath path) 
             {
-                // no-op
+                _parent._state?.ConfigureProjectPath(path);
             }
 
             public bool ValidatePath(IPath path) => !path.Exists();
@@ -99,6 +103,10 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
         private class MapFileLocationHandler : IFileSelectionHandler
         {
+            private readonly Controller _parent;
+
+            public MapFileLocationHandler(Controller parent) => _parent = parent;
+            
             public FileDialogConfiguration Configuration { get; } = 
                 new FileDialogConfiguration
                 { 
@@ -117,7 +125,10 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
             public void HandleValidOperation(IPath path)
             {
-                // no-op
+                if (_parent._state != null)
+                {
+                    _parent._state.MapFilePath = path;
+                }
             }
 
             public bool ValidatePath(IPath path) => true;
