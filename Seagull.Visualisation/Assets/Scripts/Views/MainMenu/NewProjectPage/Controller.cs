@@ -43,6 +43,14 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
             _bindings.mapFileLocation.InputFieldText = State.MapFilePath?.ToString() ?? "";
         }
 
+        /// <summary>
+        /// Initialise this <see cref="Controller"/> by injecting its dependencies.
+        /// </summary>
+        /// <param name="bindings">The NewProjectPage.Bindings.</param>
+        /// <param name="newProjectStateFactory">The factory to create <see cref="State"/>.</param>
+        /// <param name="sceneTransitionManager">The scene transition manager.</param>
+        /// <param name="projectService">The service to create new  projects.</param>
+        /// <param name="pageStateController">The page state controller.</param>
         [Inject]
         public void Init(Bindings bindings,
                          State.Factory newProjectStateFactory,
@@ -155,7 +163,6 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
         }
         
-        // TODO: Consider moving this to a separate class?
         private ISceneTransitionDescription GetCreateProjectTransitionDescription()
         {
             IEnumerator PreLoad()
