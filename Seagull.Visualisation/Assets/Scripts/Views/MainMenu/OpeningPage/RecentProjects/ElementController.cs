@@ -1,12 +1,11 @@
-using System;
 using System.Globalization;
+using Seagull.Visualisation.Core.Domain;
 using UnityEngine;
 using Zenject;
-using Seagull.Visualisation.Core.Domain;
 
-namespace Seagull.Visualisation.Views.MainMenu
+namespace Seagull.Visualisation.Views.MainMenu.OpeningPage.RecentProjects
 {
-    public class RecentProjectController : MonoBehaviour
+    public class ElementController : MonoBehaviour
     {
         public TMPro.TMP_Text projectNameLabel;
         public TMPro.TMP_Text projectPathLabel;
@@ -28,5 +27,7 @@ namespace Seagull.Visualisation.Views.MainMenu
         }
         
         public void OnClick() {}
+        
+        public sealed class Factory : PlaceholderFactory<RecentProject, ElementController> { }
     }
 }
