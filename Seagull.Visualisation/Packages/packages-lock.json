@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.beardedplatypus.brutile": {
+      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/brutile",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7650230913fec0b5737be0914b26d82524f2dfd7"
+    },
     "com.beardedplatypus.filebrowser": {
       "version": "https://github.com/BeardedPlatypus/unity-file-browser.git#upm/main",
       "depth": 0,
