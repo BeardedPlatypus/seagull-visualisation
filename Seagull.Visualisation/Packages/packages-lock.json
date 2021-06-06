@@ -21,6 +21,13 @@
       "dependencies": {},
       "hash": "a015906e8658692625652e92e1d02870fa17062a"
     },
+    "com.beardedplatypus.imagesharp": {
+      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/imagesharp",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2cd4ceccc6961b313bfb052b24c5feccb93eb02c"
+    },
     "com.beardedplatypus.newtonsoft.json": {
       "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/json",
       "depth": 0,

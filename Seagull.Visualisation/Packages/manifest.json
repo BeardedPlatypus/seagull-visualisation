@@ -3,6 +3,7 @@
     "com.beardedplatypus.brutile": "https://github.com/BeardedPlatypus/upm-packages.git#upm/brutile",
     "com.beardedplatypus.filebrowser": "https://github.com/BeardedPlatypus/unity-file-browser.git#upm/main",
     "com.beardedplatypus.fsharp.core": "https://github.com/BeardedPlatypus/upm-packages.git#upm/fsharp",
+    "com.beardedplatypus.imagesharp": "https://github.com/BeardedPlatypus/upm-packages.git#upm/imagesharp",
     "com.beardedplatypus.newtonsoft.json": "https://github.com/BeardedPlatypus/upm-packages.git#upm/json",
     "com.beardedplatypus.pathlib": "https://github.com/BeardedPlatypus/upm-packages.git#upm/pathlib",
     "com.beardedplatypus.seagull.visualisation.core": "https://github.com/BeardedPlatypus/seagull-visualisation.core.git#upm/development",
