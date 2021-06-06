@@ -1,7 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
+using PathLib;
 using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
+using Seagull.Visualisation.Core.Application;
+using Seagull.Visualisation.Core.Domain;
 using Seagull.Visualisation.Views.MainMenu.PageState;
 using Zenject;
 
@@ -11,19 +15,23 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
     {
         private Bindings _bindings;
         private SceneTransitionManager _sceneTransitionManager;
-        private IDialogService _dialogService;
         private PageState.Controller _pageStateController;
+        
+        private IDialogService _dialogService;
+        private IRecentProjectService _recentProjectService;
 
         [Inject]
         public void Init(Bindings bindings,
                          SceneTransitionManager sceneTransitionManager,
+                         PageState.Controller pageStateController,
                          IDialogService dialogService,
-                         PageState.Controller pageStateController)
+                         IRecentProjectService recentProjectService)
         {
             _bindings = bindings;
             _sceneTransitionManager = sceneTransitionManager;
             _dialogService = dialogService;
             _pageStateController = pageStateController;
+            _recentProjectService = recentProjectService;
         }
 
         private void Start()
@@ -36,7 +44,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         private void OnCreateNewProjectButtonClick() =>
             _pageStateController.Activate(PageState.Page.NewProjectPage);
 
-        private ISceneTransitionDescription GetLoadProjectTransitionDescription()
+        private ISceneTransitionDescription GetLoadProjectTransitionDescription(IPath path)
         {
             IEnumerator PreLoad()
             {
@@ -45,6 +53,8 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
 
             IEnumerator PostLoad()
             {
+                var recentProject = new RecentProject(path, DateTime.Now);
+                _recentProjectService.UpdateRecentProject(recentProject);
                 yield break;
             }
 
@@ -68,7 +78,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
 
             if (path != null)
             {
-                _sceneTransitionManager.LoadScene(GetLoadProjectTransitionDescription());
+                _sceneTransitionManager.LoadScene(GetLoadProjectTransitionDescription(path));
             }
         }
         private void OnSelectDemoProjectButtonClick() { }
