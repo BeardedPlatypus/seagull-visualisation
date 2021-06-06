@@ -9,14 +9,14 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage.RecentProjects
 {
     public class ContainerController : MonoBehaviour
     {
-        private IRecentProjectsService _recentProjectsService;
+        private IRecentProjectService _recentProjectService;
         private ElementController.Factory _elementFactory;
 
         [Inject]
-        public void Init(IRecentProjectsService recentProjectsService,
+        public void Init(IRecentProjectService recentProjectService,
                          ElementController.Factory elementFactory)
         {
-            _recentProjectsService = recentProjectsService;
+            _recentProjectService = recentProjectService;
             _elementFactory = elementFactory;
         }
         
@@ -28,7 +28,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage.RecentProjects
         private IEnumerator LoadRecentProjectsCoroutine()
         {
             yield return null;
-            IEnumerable<RecentProject> recentProjects = _recentProjectsService.GetRecentProjects();
+            IEnumerable<RecentProject> recentProjects = _recentProjectService.GetRecentProjects();
             
             foreach (var project in recentProjects)
             {

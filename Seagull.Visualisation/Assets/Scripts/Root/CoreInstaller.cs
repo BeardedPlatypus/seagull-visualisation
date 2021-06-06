@@ -1,8 +1,8 @@
 using PathLib;
 using Seagull.Visualisation.Core.Application;
-using Seagull.Visualisation.Core.Persistence;
 using Seagull.Visualisation.Core.Persistence.AppDataRepository;
 using Seagull.Visualisation.Core.Persistence.Projects;
+using Seagull.Visualisation.Core.Persistence.RecentProjects;
 using UnityEngine;
 using Zenject;
 
@@ -17,7 +17,7 @@ namespace Seagull.Visualisation.Root
                      .AsSingle()
                      .WithArguments(Paths.Create(Application.persistentDataPath));
             
-            Container.Bind<IRecentProjectsService>()
+            Container.Bind<IRecentProjectService>()
                      .To<RecentProjectServiceJson>()
                      .AsSingle();
             
