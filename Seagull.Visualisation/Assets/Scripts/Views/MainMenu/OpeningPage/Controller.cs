@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using PathLib;
+﻿using System.Linq;
 using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
-using Seagull.Visualisation.Core.Application;
-using Seagull.Visualisation.Core.Domain;
+using Seagull.Visualisation.Views.MainMenu.Common;
 using Seagull.Visualisation.Views.MainMenu.PageState;
 using Zenject;
 
@@ -16,22 +12,22 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         private Bindings _bindings;
         private SceneTransitionManager _sceneTransitionManager;
         private PageState.Controller _pageStateController;
+        private SceneTransitionFactory _sceneTransitionFactory;
         
         private IDialogService _dialogService;
-        private IRecentProjectService _recentProjectService;
 
         [Inject]
         public void Init(Bindings bindings,
                          SceneTransitionManager sceneTransitionManager,
                          PageState.Controller pageStateController,
-                         IDialogService dialogService,
-                         IRecentProjectService recentProjectService)
+                         SceneTransitionFactory sceneTransitionFactory,
+                         IDialogService dialogService)
         {
             _bindings = bindings;
             _sceneTransitionManager = sceneTransitionManager;
             _dialogService = dialogService;
             _pageStateController = pageStateController;
-            _recentProjectService = recentProjectService;
+            _sceneTransitionFactory = sceneTransitionFactory;
         }
 
         private void Start()
@@ -44,25 +40,6 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         private void OnCreateNewProjectButtonClick() =>
             _pageStateController.Activate(PageState.Page.NewProjectPage);
 
-        private ISceneTransitionDescription GetLoadProjectTransitionDescription(IPath path)
-        {
-            IEnumerator PreLoad()
-            {
-                yield break;
-            }
-
-            IEnumerator PostLoad()
-            {
-                var recentProject = new RecentProject(path, DateTime.Now);
-                _recentProjectService.UpdateRecentProject(recentProject);
-                yield break;
-            }
-
-            return new SceneTransitionDescription("ProjectEditor", 
-                                                  PreLoad(), 
-                                                  PostLoad());
-        }
-        
         private void OnLoadProjectButtonClick()
         {
             var configuration = new FileDialogConfiguration
@@ -78,7 +55,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
 
             if (path != null)
             {
-                _sceneTransitionManager.LoadScene(GetLoadProjectTransitionDescription(path));
+                _sceneTransitionManager.LoadScene(_sceneTransitionFactory.GetLoadProjectTransition(path));
             }
         }
         private void OnSelectDemoProjectButtonClick() { }

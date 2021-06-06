@@ -1,5 +1,6 @@
 using Zenject;
 
+using Common = Seagull.Visualisation.Views.MainMenu.Common;
 using NewProjectPage = Seagull.Visualisation.Views.MainMenu.NewProjectPage;
 using OpeningPage = Seagull.Visualisation.Views.MainMenu.OpeningPage;
 using PageState = Seagull.Visualisation.Views.MainMenu.PageState;
@@ -19,6 +20,7 @@ namespace Seagull.Visualisation.Root.Views
             Container.Bind<NewProjectPage.Bindings>().FromInstance(newProjectBindings);
             Container.Bind<OpeningPage.Bindings>().FromInstance(openingPageBindings);
             Container.Bind<PageState.Controller>().FromInstance(pageStateController);
+            Container.Bind<Common.SceneTransitionFactory>().AsSingle();
         }
     }
 }

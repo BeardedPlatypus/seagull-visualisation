@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
 using JetBrains.Annotations;
 using PathLib;
 using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
 using Seagull.Visualisation.Components.UserInterface;
-using Seagull.Visualisation.Core.Application;
-using Seagull.Visualisation.Core.Domain;
+using Seagull.Visualisation.Views.MainMenu.Common;
 using Seagull.Visualisation.Views.MainMenu.PageState;
 using Zenject;
 
@@ -22,9 +19,7 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         private State.Factory _stateFactory;
         private SceneTransitionManager _sceneTransitionManager;
         private PageState.Controller _pageStateController;
-        
-        private IProjectService _projectService;
-        private IRecentProjectService _recentProjectService;
+        private SceneTransitionFactory _sceneTransitionFactory;
         
         [CanBeNull] private State _state = null;
 
@@ -54,22 +49,19 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         /// <param name="newProjectStateFactory">The factory to create <see cref="State"/>.</param>
         /// <param name="sceneTransitionManager">The scene transition manager.</param>
         /// <param name="pageStateController">The page state controller.</param>
-        /// <param name="projectService">The service to create new  projects.</param>
-        /// <param name="recentProjectService">The service to manipulate recent projects.</param>
+        /// <param name="sceneTransitionFactory"></param>
         [Inject]
         public void Init(Bindings bindings,
                          State.Factory newProjectStateFactory,
                          SceneTransitionManager sceneTransitionManager,
                          PageState.Controller pageStateController,
-                         IProjectService projectService,
-                         IRecentProjectService recentProjectService)
+                         SceneTransitionFactory sceneTransitionFactory)
         {
             _bindings = bindings;
             _stateFactory = newProjectStateFactory;
             _sceneTransitionManager = sceneTransitionManager;
-            _projectService = projectService;
             _pageStateController = pageStateController;
-            _recentProjectService = recentProjectService;
+            _sceneTransitionFactory = sceneTransitionFactory;
         }
 
         private void Start()
@@ -167,40 +159,15 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
             public bool ValidatePath(IPath path) => true;
             public IPath TransformPath(IPath path) => path;
-
         }
-        
-        private ISceneTransitionDescription GetCreateProjectTransitionDescription()
+
+        private void OnCreateProjectButtonClick()
         {
-            IEnumerator PreLoad()
+            if (State != null)
             {
-                if (State == null)
-                {
-                    yield break;
-                }
-
-                yield return null;
-                _projectService.CreateProject(State.ProjectPath);
+                _sceneTransitionManager.LoadScene(_sceneTransitionFactory.GetCreateProjectTransition(State));
             }
-
-            IEnumerator PostLoad()
-            {
-                if (_state != null)
-                {
-                    var recentProject = new RecentProject(_state.ProjectPath, DateTime.Now);
-                    _recentProjectService.UpdateRecentProject(recentProject);
-                }
-
-                yield break;
-            }
-
-            return new SceneTransitionDescription("ProjectEditor", 
-                                                  PreLoad(), 
-                                                  PostLoad());
         }
-        
-        private void OnCreateProjectButtonClick() =>
-            _sceneTransitionManager.LoadScene(GetCreateProjectTransitionDescription());
 
         private void OnBackButtonClick() =>
             _pageStateController.Activate(Page.OpeningPage);
