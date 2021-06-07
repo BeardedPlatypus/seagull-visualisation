@@ -1,0 +1,14 @@
+{
+    "name": "Seagull.Visualisation.Views.ProjectEditor.World",
+    "rootNamespace": "Seagull.Visualisation",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
