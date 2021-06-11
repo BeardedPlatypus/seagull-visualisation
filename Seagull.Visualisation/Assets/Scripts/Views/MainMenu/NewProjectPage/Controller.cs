@@ -5,6 +5,7 @@ using Seagull.Visualisation.Components.Loading;
 using Seagull.Visualisation.Components.UserInterface;
 using Seagull.Visualisation.Views.MainMenu.Common;
 using Seagull.Visualisation.Views.MainMenu.PageState;
+using UnityEngine;
 using Zenject;
 
 namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
@@ -22,6 +23,7 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         private SceneTransitionFactory _sceneTransitionFactory;
         
         [CanBeNull] private State _state = null;
+        private static readonly int IsActive = Animator.StringToHash("IsActive");
 
         [CanBeNull]
         private State State
@@ -72,9 +74,17 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
             _bindings.backButton.onClick.AddListener(OnBackButtonClick);
         }
 
-        public override void Activate() => State = _stateFactory.Create();
+        public override void Activate()
+        {
+            State = _stateFactory.Create();
+            _bindings.animator.SetBool(IsActive, true);
+        }
 
-        public override void Deactivate() => State = null;
+        public override void Deactivate()
+        {
+            _bindings.animator.SetBool(IsActive, false);
+            State = null;
+        }
 
         private class ProjectLocationHandler : IFileSelectionHandler
         {

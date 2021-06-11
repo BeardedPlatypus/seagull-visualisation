@@ -24,6 +24,7 @@ namespace Seagull.Visualisation.Views.MainMenu.PageState
                 new Tuple<Page, GameObject>(Page.NewProjectPage, newProjectPage.gameObject),
                 new Tuple<Page, GameObject>(Page.OpeningPage, openingPage.gameObject),
             };
+            
         }
         
         private void Start()
@@ -33,8 +34,6 @@ namespace Seagull.Visualisation.Views.MainMenu.PageState
                 {Page.OpeningPage, openingPageController},
                 {Page.NewProjectPage, newProjectPageController},
             };
-            
-            _controllers[_activePage].Activate();
         }
 
         public void Activate(Page page)
@@ -42,12 +41,6 @@ namespace Seagull.Visualisation.Views.MainMenu.PageState
             if (page == _activePage) return;
             
             _controllers[_activePage].Deactivate();
-            
-            foreach ((Page p, GameObject obj) in _pages)
-            {
-                obj.gameObject.SetActive(p == page);
-            }
-
             _activePage = page;
             _controllers[_activePage].Activate();
         }

@@ -8,5 +8,6 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         public Button createNewProjectButton;
         public Button loadProjectButton;
         public Button selectDemoProject;
+        public Animator animator;
     }
 }

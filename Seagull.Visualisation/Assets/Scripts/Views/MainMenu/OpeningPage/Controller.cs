@@ -3,6 +3,7 @@ using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
 using Seagull.Visualisation.Views.MainMenu.Common;
 using Seagull.Visualisation.Views.MainMenu.PageState;
+using UnityEngine;
 using Zenject;
 
 namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
@@ -15,6 +16,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         private SceneTransitionFactory _sceneTransitionFactory;
         
         private IDialogService _dialogService;
+        private static readonly int IsActive = Animator.StringToHash("IsActive");
 
         [Inject]
         public void Init(Bindings bindings,
@@ -62,12 +64,12 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         
         public override void Activate()
         {
-            // No-op
+            _bindings.animator.SetBool(IsActive, true);
         }
 
         public override void Deactivate()
         {
-            // No-op
+            _bindings.animator.SetBool(IsActive, false);
         }
     }
 }

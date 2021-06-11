@@ -31,5 +31,7 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         /// The <see cref="Button"/> to create a new project.
         /// </summary>
         public Button createProjectButton;
+        
+        public Animator animator;
     }
 }
