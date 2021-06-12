@@ -23,17 +23,22 @@ namespace Seagull.Visualisation.Views.ProjectEditor.World
         private void Start()
         {
             _sourceKey = _repository.RetrieveTileSourceKeys().First();
-            
-            for (int i = 0; i < 4; i++) 
-            for (int j = 0; j < 4; j++) 
+
+            const int zoomLevel = 3;
+            const int nTiles = 2 << (zoomLevel - 1);
+
+            for (int i = 0; i < nTiles; i++) 
+            for (int j = 0; j < nTiles; j++) 
             { 
-                InstantiateTile(i, j, 2); 
+                InstantiateTile(i, j, zoomLevel); 
             }
         }
         
         private GameObject InstantiateTile(int x, int y, int zoomLevel)
         {
-            GameObject tile = Instantiate(tilePrefab, new Vector3(x - 2 , 0, y - 2 ), Quaternion.Euler(90.0F, 0.0F, 0.0F));
+            int tileOffset = 2 << (zoomLevel - 2);
+            
+            GameObject tile = Instantiate(tilePrefab, new Vector3(x - tileOffset, 0, y - tileOffset ), Quaternion.Euler(90.0F, 0.0F, 0.0F));
             tile.name = $"tile_{x}_{y}";
             tile.transform.parent = transform;
             
