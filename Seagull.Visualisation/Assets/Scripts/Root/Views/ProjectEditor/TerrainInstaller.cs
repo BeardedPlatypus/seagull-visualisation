@@ -9,13 +9,13 @@ namespace Seagull.Visualisation.Root.Views.ProjectEditor
 {
     public class TerrainInstaller : MonoInstaller
     {
-        private readonly ITileSourceRepository _repository =
-                new TileSourceRepository(GetTileSources());
-        
         public override void InstallBindings()
         {
+            ITileSourceRepository repository = new TileSourceRepository(GetTileSources());
             Container.Bind<ITileSourceRepository>()
-                     .FromInstance(_repository);
+                     .FromInstance(repository)
+                     .AsSingle()
+                     .NonLazy();
         }
 
         private static IEnumerable<TileSource> GetTileSources()
