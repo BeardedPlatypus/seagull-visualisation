@@ -6,3 +6,6 @@
 
 Seagull.Visualisation Toolkit is a simple Unity project aimed at visualizing .netCDF files. This repository houses the main Unity project. The back-end implementation can be found in the [Seagull-Visualisation.Core Repository](https://github.com/BeardedPlatypus/seagull-visualisation.core)
 
+# Attribution
+
+- Seagull Icon made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
