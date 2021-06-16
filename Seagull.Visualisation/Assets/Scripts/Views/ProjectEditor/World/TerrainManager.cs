@@ -43,6 +43,8 @@ namespace Seagull.Visualisation.Views.ProjectEditor.World
             tile.transform.parent = transform;
             
             SetTileTexture(tile, x, y, zoomLevel);
+
+            tile.layer = 6; // Terrain
      
             return tile;
         }
