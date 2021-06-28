@@ -21,6 +21,15 @@
       "dependencies": {},
       "hash": "a015906e8658692625652e92e1d02870fa17062a"
     },
+    "com.beardedplatypus.functional.netcdf": {
+      "version": "https://github.com/BeardedPlatypus/Functional.NetCDF.git#upm/main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.beardedplatypus.fsharp.core": "5.0.1"
+      },
+      "hash": "c3f57da41023e1ba4359a5e766fc11d8bed1b559"
+    },
     "com.beardedplatypus.imagesharp": {
       "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/imagesharp",
       "depth": 0,
