@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using JetBrains.Annotations;
 using PathLib;
 using Seagull.Visualisation.Components.FileDialogs;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -61,15 +63,15 @@ namespace Seagull.Visualisation.Components.UserInterface
         
         private void Start()
         {
-            fileSelectionButton.onClick.AddListener(OnButtonClick);
+            fileSelectionButton.OnClickAsObservable()
+                               .Subscribe(_ => OnButtonClick());
         }
         
-        // TODO: This should be changed to multiple streams
         private void OnButtonClick()
         {
             if (!HasInteractableButton()) return;
             
-            IPath result = _dialogService.OpenFileDialog(Handler.Configuration)
+            IPath result = _dialogService.OpenFileDialog(Handler!.Configuration)
                                          .FirstOrDefault();
 
             if (!IsValidPath(result))

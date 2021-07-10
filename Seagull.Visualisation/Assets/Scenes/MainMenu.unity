@@ -1317,6 +1317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 515284838}
   - component: {fileID: 515284839}
+  - component: {fileID: 515284840}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -1371,6 +1372,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &515284840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515284837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 270e41c79d2f4b489056828fd1e4851f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &529797829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,7 +1894,7 @@ GameObject:
   - component: {fileID: 646596547}
   - component: {fileID: 646596546}
   m_Layer: 5
-  m_Name: RecentProjectsLabel
+  m_Name: CreateNewProjectLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3914,7 +3927,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c150d174653c34044aea6db9576c4316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageStateController: {fileID: 0}
 --- !u!114 &1659636365
 MonoBehaviour:
   m_ObjectHideFlags: 0
