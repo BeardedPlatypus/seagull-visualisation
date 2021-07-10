@@ -347,7 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoomFactor: 0.005
   panFactor: 0.005
-  orbitFactor: 0.005
+  orbitFactor: 0.05
   rotationFactor: 0.025
   isPanning: 0
   isAlternativeMove: 0
