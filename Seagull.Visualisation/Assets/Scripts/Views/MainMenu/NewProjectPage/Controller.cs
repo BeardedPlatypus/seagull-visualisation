@@ -40,7 +40,7 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
             MapLocationHandler = new MapFileLocationHandlerImplementation(this);
         }
 
-        public ReactiveProperty<State> State { get; } = new ReactiveProperty<State>(null);
+        private ReactiveProperty<State> State { get; } = new ReactiveProperty<State>(null);
         
         public ReactiveProperty<bool> IsActive { get; } = new ReactiveProperty<bool>(false);
 

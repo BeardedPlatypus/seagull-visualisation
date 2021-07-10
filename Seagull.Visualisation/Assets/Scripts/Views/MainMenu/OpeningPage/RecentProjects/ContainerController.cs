@@ -1,7 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Seagull.Visualisation.Core.Application;
 using Seagull.Visualisation.Core.Domain;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -22,19 +23,22 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage.RecentProjects
         
         private void Start()
         {
-            StartCoroutine(LoadRecentProjectsCoroutine());
+            var retrieveFunc = Observable.Start(RetrieveRecentProjects);
+            Observable.WhenAll(retrieveFunc)
+                      .ObserveOnMainThread()
+                      .Subscribe(xs => CreateRecentProjects(xs[0]));
         }
 
-        private IEnumerator LoadRecentProjectsCoroutine()
+        private IList<RecentProject> RetrieveRecentProjects() =>
+            _recentProjectService.GetRecentProjects()
+                                 .ToList();
+
+        private void CreateRecentProjects(IList<RecentProject> recentProjects)
         {
-            yield return null;
-            IEnumerable<RecentProject> recentProjects = _recentProjectService.GetRecentProjects();
-            
-            foreach (var project in recentProjects)
+            foreach (RecentProject recentProject in recentProjects)
             {
-                ElementController elementController = _elementFactory.Create(project);
-                elementController.transform.SetParent(transform);
-                yield return null;
+                var element = _elementFactory.Create(recentProject);
+                element.transform.SetParent(transform);
             }
         }
     }
