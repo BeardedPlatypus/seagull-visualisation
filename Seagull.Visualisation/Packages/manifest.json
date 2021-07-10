@@ -10,6 +10,7 @@
     "com.beardedplatypus.pathlib": "https://github.com/BeardedPlatypus/upm-packages.git#upm/pathlib",
     "com.beardedplatypus.projnet4geoapi": "https://github.com/BeardedPlatypus/upm-packages.git#upm/projnet",
     "com.beardedplatypus.seagull.visualisation.core": "https://github.com/BeardedPlatypus/seagull-visualisation.core.git#upm/development",
+    "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.cinemachine": "2.6.5",
     "com.unity.collab-proxy": "1.5.7",
