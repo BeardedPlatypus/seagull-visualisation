@@ -1,6 +1,9 @@
 using Seagull.Visualisation.Components.UserInterface;
+using Seagull.Visualisation.Views.MainMenu.PageState;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 {
@@ -33,5 +36,34 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         public Button createProjectButton;
         
         public Animator animator;
+
+        private Controller _controller;
+        private PageState.Controller _pageStateController;
+        
+        private static readonly int IsActive = Animator.StringToHash("IsActive");
+
+        [Inject]
+        public void Init(Controller controller, 
+                         PageState.Controller pageStateController)
+        {
+            _controller = controller;
+            _pageStateController = pageStateController;
+        }
+
+        private void Start()
+        {
+            projectLocation.Handler = _controller.ProjectLocationHandler;
+            mapFileLocation.Handler = _controller.MapLocationHandler;
+
+            createProjectButton.OnClickAsObservable()
+                               .Subscribe(_ => _controller.OnCreateProject())
+                               .AddTo(this);
+
+            _pageStateController.RegisterPageObservable(
+                backButton.OnClickAsObservable().Select(_ => Page.OpeningPage));
+            
+            _controller.IsActive.Subscribe(val => animator.SetBool(IsActive, val))
+                                .AddTo(this);
+        }
     }
 }

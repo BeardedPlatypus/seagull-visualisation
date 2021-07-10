@@ -54,7 +54,7 @@ namespace Seagull.Visualisation.Components.UserInterface
         private bool _isInteractableButton = true;
 
         [Inject]
-        private void Init(IDialogService dialogService)
+        public void Init(IDialogService dialogService)
         {
             _dialogService = dialogService;
         }
@@ -64,6 +64,7 @@ namespace Seagull.Visualisation.Components.UserInterface
             fileSelectionButton.onClick.AddListener(OnButtonClick);
         }
         
+        // TODO: This should be changed to multiple streams
         private void OnButtonClick()
         {
             if (!HasInteractableButton()) return;

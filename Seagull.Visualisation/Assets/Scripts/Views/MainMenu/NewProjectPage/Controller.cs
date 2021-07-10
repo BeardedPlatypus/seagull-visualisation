@@ -5,8 +5,7 @@ using Seagull.Visualisation.Components.Loading;
 using Seagull.Visualisation.Components.UserInterface;
 using Seagull.Visualisation.Views.MainMenu.Common;
 using Seagull.Visualisation.Views.MainMenu.PageState;
-using UnityEngine;
-using Zenject;
+using UniRx;
 
 namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 {
@@ -14,83 +13,46 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
     /// <see cref="Controller"/> is responsible for
     /// managing the 
     /// </summary>
-    public class Controller : PageController
+    public sealed class Controller : IPageController
     {
-        private Bindings _bindings;
-        private State.Factory _stateFactory;
-        private SceneTransitionManager _sceneTransitionManager;
-        private PageState.Controller _pageStateController;
-        private SceneTransitionFactory _sceneTransitionFactory;
+        private readonly SceneTransitionManager _sceneTransitionManager;
+        private readonly SceneTransitionFactory _sceneTransitionFactory;
         
-        [CanBeNull] private State _state = null;
-        private static readonly int IsActive = Animator.StringToHash("IsActive");
-
-        [CanBeNull]
-        private State State
-        {
-            get => _state;
-            set
-            {
-                _state = value;
-                SyncProjectState();
-            }
-        }
-
-        private void SyncProjectState()
-        {
-            if (State == null) return;
-
-            _bindings.projectLocation.InputFieldText = State.ProjectPath?.ToString() ?? "";
-            _bindings.mapFileLocation.InputFieldText = State.MapFilePath?.ToString() ?? "";
-        }
-
         /// <summary>
         /// Initialise this <see cref="Controller"/> by injecting its dependencies.
         /// </summary>
-        /// <param name="bindings">The NewProjectPage.Bindings.</param>
         /// <param name="newProjectStateFactory">The factory to create <see cref="State"/>.</param>
         /// <param name="sceneTransitionManager">The scene transition manager.</param>
-        /// <param name="pageStateController">The page state controller.</param>
         /// <param name="sceneTransitionFactory"></param>
-        [Inject]
-        public void Init(Bindings bindings,
-                         State.Factory newProjectStateFactory,
-                         SceneTransitionManager sceneTransitionManager,
-                         PageState.Controller pageStateController,
-                         SceneTransitionFactory sceneTransitionFactory)
+        public Controller(State.Factory newProjectStateFactory,
+                          SceneTransitionManager sceneTransitionManager,
+                          SceneTransitionFactory sceneTransitionFactory)
         {
-            _bindings = bindings;
-            _stateFactory = newProjectStateFactory;
             _sceneTransitionManager = sceneTransitionManager;
-            _pageStateController = pageStateController;
             _sceneTransitionFactory = sceneTransitionFactory;
+            
+            IsActive.Where(isActive => isActive)
+                    .Subscribe(_ => State.Value = newProjectStateFactory.Create());
+            IsActive.Where(isActive => !isActive)
+                    .Subscribe(_ => State.Value = null);
+
+            ProjectLocationHandler = new ProjectLocationHandlerImplementation(this);
+            MapLocationHandler = new MapFileLocationHandlerImplementation(this);
         }
 
-        private void Start()
-        {
-            _bindings.projectLocation.Handler = new ProjectLocationHandler(this);
-            _bindings.mapFileLocation.Handler = new MapFileLocationHandler(this);
-            _bindings.createProjectButton.onClick.AddListener(OnCreateProjectButtonClick);
-            _bindings.backButton.onClick.AddListener(OnBackButtonClick);
-        }
+        public ReactiveProperty<State> State { get; } = new ReactiveProperty<State>(null);
+        
+        public ReactiveProperty<bool> IsActive { get; } = new ReactiveProperty<bool>(false);
 
-        public override void Activate()
-        {
-            State = _stateFactory.Create();
-            _bindings.animator.SetBool(IsActive, true);
-        }
+        public IFileSelectionHandler ProjectLocationHandler { get; } 
+        public IFileSelectionHandler MapLocationHandler { get; } 
 
-        public override void Deactivate()
-        {
-            _bindings.animator.SetBool(IsActive, false);
-            State = null;
-        }
-
-        private class ProjectLocationHandler : IFileSelectionHandler
+        // TODO: see whether these can be made reactive as well
+        private class ProjectLocationHandlerImplementation : IFileSelectionHandler
         {
             private readonly Controller _parent;
 
-            public ProjectLocationHandler(Controller parent) => _parent = parent;
+            public ProjectLocationHandlerImplementation(Controller parent) => _parent = parent;
             
             public FileDialogConfiguration Configuration { get; } =
                 new FileDialogConfiguration
@@ -104,16 +66,15 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
                     }
                 };
 
-            public void HandleInvalidOperation([CanBeNull] IPath path) 
-            { 
+            public void HandleInvalidOperation([CanBeNull] IPath path) { 
                 // no-op
             }
 
             public void HandleValidOperation(IPath path) 
             {
-                if (_parent._state != null)
+                if (_parent.State.Value != null)
                 {
-                    _parent._state.ProjectPath = path;
+                    _parent.State.Value.ProjectPath = path;
                 }
             }
 
@@ -123,7 +84,7 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
             {
                 path = AddProjectExtension(path);
 
-                if (_parent._state?.ShouldCreateNewSolutionDirectory ?? false)
+                if (_parent.State.Value?.ShouldCreateNewSolutionDirectory ?? false)
                 {
                     path = AddProjectDir(path);
                 }
@@ -137,11 +98,11 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
                 path.Parent().Join(path.Basename).Join(path.Filename);
         }
 
-        private class MapFileLocationHandler : IFileSelectionHandler
+        private class MapFileLocationHandlerImplementation : IFileSelectionHandler
         {
             private readonly Controller _parent;
 
-            public MapFileLocationHandler(Controller parent) => _parent = parent;
+            public MapFileLocationHandlerImplementation(Controller parent) => _parent = parent;
             
             public FileDialogConfiguration Configuration { get; } = 
                 new FileDialogConfiguration
@@ -161,9 +122,9 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
             public void HandleValidOperation(IPath path)
             {
-                if (_parent._state != null)
+                if (_parent.State.Value != null)
                 {
-                    _parent._state.MapFilePath = path;
+                    _parent.State.Value.MapFilePath = path;
                 }
             }
 
@@ -171,15 +132,12 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
             public IPath TransformPath(IPath path) => path;
         }
 
-        private void OnCreateProjectButtonClick()
+        public void OnCreateProject()
         {
             if (State != null)
             {
-                _sceneTransitionManager.LoadScene(_sceneTransitionFactory.GetCreateProjectTransition(State));
+                _sceneTransitionManager.LoadScene(_sceneTransitionFactory.GetCreateProjectTransition(State.Value));
             }
         }
-
-        private void OnBackButtonClick() =>
-            _pageStateController.Activate(Page.OpeningPage);
     }
 }

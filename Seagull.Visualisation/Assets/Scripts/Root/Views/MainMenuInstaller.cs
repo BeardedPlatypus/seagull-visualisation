@@ -9,18 +9,20 @@ namespace Seagull.Visualisation.Root.Views
 {
     public class MainMenuInstaller : MonoInstaller
     {
-        public NewProjectPage.Bindings newProjectBindings;
-        public OpeningPage.Bindings openingPageBindings;
-
-        public PageState.Controller pageStateController;
-        
         public override void InstallBindings()
         {
             Container.BindFactory<NewProjectPage.State, NewProjectPage.State.Factory>();
-            Container.Bind<NewProjectPage.Bindings>().FromInstance(newProjectBindings);
-            Container.Bind<OpeningPage.Bindings>().FromInstance(openingPageBindings);
-            Container.Bind<PageState.Controller>().FromInstance(pageStateController);
+            Container.Bind<PageState.Controller>()
+                     .FromNewComponentOnNewGameObject() 
+                     .AsSingle();
             Container.Bind<Common.SceneTransitionFactory>().AsSingle();
+
+            Container.Bind<OpeningPage.Controller>()
+                     .To<OpeningPage.Controller>()
+                     .AsSingle();
+            Container.Bind<NewProjectPage.Controller>()
+                     .To<NewProjectPage.Controller>()
+                     .AsSingle();
         }
     }
 }

@@ -1,48 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using Seagull.Visualisation.Views.MainMenu.Common;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
 namespace Seagull.Visualisation.Views.MainMenu.PageState
 {
-    public class Controller : MonoBehaviour
+    public sealed class Controller : MonoBehaviour
     {
-        private IReadOnlyCollection<Tuple<Page, GameObject>> _pages;
-        private IReadOnlyDictionary<Page, PageController> _controllers;
-
-        public PageController newProjectPageController;
-        public PageController openingPageController;
-
+        private IReadOnlyDictionary<Page, IPageController> _controllers;
         private Page _activePage = Page.OpeningPage;
 
         [Inject]
-        public void Init(NewProjectPage.Bindings newProjectPage,
-                          OpeningPage.Bindings openingPage)
+        public void Init(NewProjectPage.Controller newProjectController,
+                         OpeningPage.Controller openingPageController)
         {
-            _pages = new[]
+            _controllers = new Dictionary<Page, IPageController>()
             {
-                new Tuple<Page, GameObject>(Page.NewProjectPage, newProjectPage.gameObject),
-                new Tuple<Page, GameObject>(Page.OpeningPage, openingPage.gameObject),
+                { Page.NewProjectPage, newProjectController },
+                { Page.OpeningPage, openingPageController },
             };
             
         }
-        
-        private void Start()
-        {
-            _controllers = new Dictionary<Page, PageController>
-            {
-                {Page.OpeningPage, openingPageController},
-                {Page.NewProjectPage, newProjectPageController},
-            };
-        }
 
-        public void Activate(Page page)
+        public void RegisterPageObservable(IObservable<Page> observable) =>
+            observable.Subscribe(Activate).AddTo(this);
+
+        private void Activate(Page page)
         {
             if (page == _activePage) return;
             
-            _controllers[_activePage].Deactivate();
+            _controllers[_activePage].IsActive.Value = false;
             _activePage = page;
-            _controllers[_activePage].Activate();
+            _controllers[_activePage].IsActive.Value = true;
         }
     }
 }
