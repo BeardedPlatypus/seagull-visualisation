@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using Seagull.Visualisation.Views.MainMenu.PageState;
+using UniRx;
 using UnityEngine;
 using Zenject;
 using Button = UnityEngine.UI.Button;
@@ -14,23 +15,21 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         public Animator animator;
         
         private Controller _controller;
-        private PageState.Controller _pageStateController;
         
         private static readonly int IsActive = Animator.StringToHash("IsActive");
 
         [Inject]
-        public void Init(Controller controller, 
-                         PageState.Controller pageStateController)
+        public void Init(Controller controller)
         {
             _controller = controller;
-            _pageStateController = pageStateController;
         }
 
         private void Start()
         {
-            _pageStateController.RegisterPageObservable(
-                createNewProjectButton.OnClickAsObservable()
-                                      .Select(_ => PageState.Page.NewProjectPage));
+            createNewProjectButton.OnClickAsObservable()
+                                  .Select(_ => new ChangePageMessage(PageState.Page.NewProjectPage))
+                                  .Subscribe(MessageBroker.Default.Publish)
+                                  .AddTo(this);
 
             loadProjectButton.OnClickAsObservable()
                              .Subscribe(_ => _controller.OnLoadProject())

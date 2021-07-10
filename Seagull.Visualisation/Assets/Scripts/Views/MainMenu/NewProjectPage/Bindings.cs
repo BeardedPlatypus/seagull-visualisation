@@ -38,16 +38,13 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         public Animator animator;
 
         private Controller _controller;
-        private PageState.Controller _pageStateController;
         
         private static readonly int IsActive = Animator.StringToHash("IsActive");
 
         [Inject]
-        public void Init(Controller controller, 
-                         PageState.Controller pageStateController)
+        public void Init(Controller controller)
         {
             _controller = controller;
-            _pageStateController = pageStateController;
         }
 
         private void Start()
@@ -58,9 +55,11 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
             createProjectButton.OnClickAsObservable()
                                .Subscribe(_ => _controller.OnCreateProject())
                                .AddTo(this);
-
-            _pageStateController.RegisterPageObservable(
-                backButton.OnClickAsObservable().Select(_ => Page.OpeningPage));
+            
+            backButton.OnClickAsObservable()
+                      .Select(_ => new ChangePageMessage(PageState.Page.OpeningPage))
+                      .Subscribe(MessageBroker.Default.Publish)
+                      .AddTo(this);
             
             _controller.IsActive.Subscribe(val => animator.SetBool(IsActive, val))
                                 .AddTo(this);

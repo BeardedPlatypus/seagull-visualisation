@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Seagull.Visualisation.Views.MainMenu.Common;
 using UniRx;
 using UnityEngine;
@@ -21,11 +20,14 @@ namespace Seagull.Visualisation.Views.MainMenu.PageState
                 { Page.NewProjectPage, newProjectController },
                 { Page.OpeningPage, openingPageController },
             };
-            
         }
 
-        public void RegisterPageObservable(IObservable<Page> observable) =>
-            observable.Subscribe(Activate).AddTo(this);
+        private void Start()
+        { 
+            MessageBroker.Default.Receive<ChangePageMessage>()
+                                 .Subscribe(msg => Activate(msg.GoalPage))
+                                 .AddTo(this);
+        }
 
         private void Activate(Page page)
         {
