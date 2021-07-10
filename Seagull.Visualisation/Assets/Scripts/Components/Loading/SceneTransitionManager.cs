@@ -2,6 +2,7 @@
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 namespace Seagull.Visualisation.Components.Loading
 {
@@ -16,6 +17,14 @@ namespace Seagull.Visualisation.Components.Loading
 
         private Fader _fader;
 
+        private ZenjectSceneLoader _sceneLoader;
+
+        [Inject]
+        private void Init(ZenjectSceneLoader sceneLoader)
+        {
+            _sceneLoader = sceneLoader;
+        }
+        
         private void Awake()
         {
             GameObject[] objs = GameObject.FindGameObjectsWithTag("SceneTransitionManager");
@@ -33,40 +42,45 @@ namespace Seagull.Visualisation.Components.Loading
             _fader = GetComponentInChildren<Fader>();
 
             MessageBroker.Default.Receive<ChangeSceneMessage>()
-                         .Subscribe(msg => LoadScene(msg.SceneTransitionDescription))
+                         .Subscribe(msg => LoadSceneAsync(msg.SceneTransitionDescription))
                          .AddTo(this);
         }
 
-        /// <summary>
-        /// Load the scene described by the <paramref name="sceneTransitionDescription"/>.
-        /// </summary>
-        /// <param name="sceneTransitionDescription">
-        /// The description of the transition.
-        /// </param>
-        private void LoadScene(ISceneTransitionDescription sceneTransitionDescription) =>
-            StartCoroutine(LoadSceneAsync(sceneTransitionDescription));
-
         private const string LoadScreenName = "LoadScreen";
 
-        private IEnumerator LoadSceneAsync(ISceneTransitionDescription sceneTransitionBehaviour)
+        private IEnumerator LoadNextSceneAsync(ISceneTransitionDescription sceneTransitionBehaviour)
         {
-            // Load loading screen
-            yield return StartCoroutine(_fader.FadeTo(1.0F, fadeInTime));
-            yield return SceneManager.LoadSceneAsync(LoadScreenName,
-                                                     LoadSceneMode.Single);
-            yield return StartCoroutine(_fader.FadeTo(0.0F, fadeOutTime));
-
-            // Load actual scene
             yield return Resources.UnloadUnusedAssets();
             yield return StartCoroutine(sceneTransitionBehaviour.PreSceneLoadCoroutine);
-            yield return SceneManager.LoadSceneAsync(sceneTransitionBehaviour.SceneName,
+            yield return _sceneLoader.LoadSceneAsync(sceneTransitionBehaviour.SceneName,
                                                      LoadSceneMode.Additive);
             yield return StartCoroutine(sceneTransitionBehaviour.PostSceneLoadCoroutine);
-            
-            // Unload loading screen
-            yield return StartCoroutine(_fader.FadeTo(1.0F, fadeInTime));
+        }
+
+        private IEnumerator LoadLoadingScreenAsync()
+        {
+            yield return _sceneLoader.LoadSceneAsync(LoadScreenName, LoadSceneMode.Single);
+        }
+        
+        private IEnumerator UnloadLoadingScreenAsync()
+        {
             yield return SceneManager.UnloadSceneAsync(LoadScreenName);
-            yield return StartCoroutine(_fader.FadeTo(0.0F, fadeOutTime));
+        }
+
+        private void LoadSceneAsync(ISceneTransitionDescription sceneTransitionBehaviour)
+        {
+            // Load loading screen
+            var fadeIn = Observable.FromCoroutine(() => _fader.FadeTo(1.0F, fadeInTime));
+            var fadeOut = Observable.FromCoroutine(() => _fader.FadeTo(0.0F, fadeOutTime));
+
+            fadeIn
+                .SelectMany(LoadLoadingScreenAsync)
+                .SelectMany(fadeOut)
+                .SelectMany(() => LoadNextSceneAsync(sceneTransitionBehaviour))
+                .SelectMany(fadeIn)
+                .SelectMany(UnloadLoadingScreenAsync)
+                .SelectMany(fadeOut)
+                .Subscribe();
         }
     }
 }
