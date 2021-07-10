@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,6 +31,10 @@ namespace Seagull.Visualisation.Components.Loading
         private void Start()
         {
             _fader = GetComponentInChildren<Fader>();
+
+            MessageBroker.Default.Receive<ChangeSceneMessage>()
+                         .Subscribe(msg => LoadScene(msg.SceneTransitionDescription))
+                         .AddTo(this);
         }
 
         /// <summary>
@@ -38,7 +43,7 @@ namespace Seagull.Visualisation.Components.Loading
         /// <param name="sceneTransitionDescription">
         /// The description of the transition.
         /// </param>
-        public void LoadScene(ISceneTransitionDescription sceneTransitionDescription) =>
+        private void LoadScene(ISceneTransitionDescription sceneTransitionDescription) =>
             StartCoroutine(LoadSceneAsync(sceneTransitionDescription));
 
         private const string LoadScreenName = "LoadScreen";

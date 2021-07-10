@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using PathLib;
 using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
 using Seagull.Visualisation.Views.MainMenu.Common;
@@ -8,21 +9,17 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
 {
     public sealed class Controller : IPageController
     {
-        private readonly SceneTransitionManager _sceneTransitionManager;
         private readonly SceneTransitionFactory _sceneTransitionFactory;
         private readonly IDialogService _dialogService;
 
-        public Controller(SceneTransitionManager sceneTransitionManager,
-                          SceneTransitionFactory sceneTransitionFactory,
+        public Controller(SceneTransitionFactory sceneTransitionFactory,
                           IDialogService dialogService)
         {
-            _sceneTransitionManager = sceneTransitionManager;
             _dialogService = dialogService;
             _sceneTransitionFactory = sceneTransitionFactory;
         }
 
-        // TODO this functions could be split up in separate streams of selecting a path and handling it
-        public void OnLoadProject()
+        public IPath RequestProjectPath()
         {
             var configuration = new FileDialogConfiguration
             {
@@ -33,12 +30,14 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
                 }
             };
             
-            var path = _dialogService.OpenFileDialog(configuration).FirstOrDefault();
-
-            if (path != null)
-            {
-                _sceneTransitionManager.LoadScene(_sceneTransitionFactory.GetLoadProjectTransition(path));
-            }
+            return _dialogService.OpenFileDialog(configuration).FirstOrDefault();
+        }
+        
+        public void OnLoadProject(IPath path)
+        {
+            var description = _sceneTransitionFactory.GetLoadProjectTransition(path);
+            var msg = new ChangeSceneMessage(description);
+            MessageBroker.Default.Publish(msg);
         }
         
         public void OnSelectDemoProject() { }

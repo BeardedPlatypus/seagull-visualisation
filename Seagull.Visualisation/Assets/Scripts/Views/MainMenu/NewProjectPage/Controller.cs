@@ -4,7 +4,6 @@ using Seagull.Visualisation.Components.FileDialogs;
 using Seagull.Visualisation.Components.Loading;
 using Seagull.Visualisation.Components.UserInterface;
 using Seagull.Visualisation.Views.MainMenu.Common;
-using Seagull.Visualisation.Views.MainMenu.PageState;
 using UniRx;
 
 namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
@@ -15,20 +14,16 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
     /// </summary>
     public sealed class Controller : IPageController
     {
-        private readonly SceneTransitionManager _sceneTransitionManager;
         private readonly SceneTransitionFactory _sceneTransitionFactory;
         
         /// <summary>
         /// Initialise this <see cref="Controller"/> by injecting its dependencies.
         /// </summary>
         /// <param name="newProjectStateFactory">The factory to create <see cref="State"/>.</param>
-        /// <param name="sceneTransitionManager">The scene transition manager.</param>
         /// <param name="sceneTransitionFactory"></param>
         public Controller(State.Factory newProjectStateFactory,
-                          SceneTransitionManager sceneTransitionManager,
                           SceneTransitionFactory sceneTransitionFactory)
         {
-            _sceneTransitionManager = sceneTransitionManager;
             _sceneTransitionFactory = sceneTransitionFactory;
             
             IsActive.Where(isActive => isActive)
@@ -134,10 +129,11 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
 
         public void OnCreateProject()
         {
-            if (State != null)
-            {
-                _sceneTransitionManager.LoadScene(_sceneTransitionFactory.GetCreateProjectTransition(State.Value));
-            }
+            if (State == null) return;
+            
+            var transitionDescription = _sceneTransitionFactory.GetCreateProjectTransition(State.Value);
+            var msg = new ChangeSceneMessage(transitionDescription);
+            MessageBroker.Default.Publish(msg);
         }
     }
 }

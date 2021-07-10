@@ -32,8 +32,11 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
                                   .AddTo(this);
 
             loadProjectButton.OnClickAsObservable()
-                             .Subscribe(_ => _controller.OnLoadProject())
+                             .Select(_ => _controller.RequestProjectPath())
+                             .Where(p => p != null)
+                             .Subscribe(_controller.OnLoadProject)
                              .AddTo(this);
+            
             selectDemoProject.OnClickAsObservable()
                              .Subscribe(_ => _controller.OnSelectDemoProject())
                              .AddTo(this);
