@@ -30,6 +30,22 @@
       },
       "hash": "0a8022679024d65af52566e9c58634b0844269b3"
     },
+    "com.beardedplatypus.geoapi.coordinatesystems": {
+      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/geoapi.coordinatesystems",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.beardedplatypus.geoapi.core": "1.7.5"
+      },
+      "hash": "46b8997d950b091158cd46e30a3d1fe1fed80307"
+    },
+    "com.beardedplatypus.geoapi.core": {
+      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/geoapi.core",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "56f52572cf0dbacdb3155b776bd28b4c11f74914"
+    },
     "com.beardedplatypus.imagesharp": {
       "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/imagesharp",
       "depth": 0,
@@ -50,6 +66,15 @@
       "source": "git",
       "dependencies": {},
       "hash": "e2adea502c01781d38283c26e1d6c265f641875b"
+    },
+    "com.beardedplatypus.projnet4geoapi": {
+      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/projnet",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.beardedplatypus.geoapi.coordinatesystems": "1.7.5"
+      },
+      "hash": "584575e5626a2bac2145c6332fae3fd86ea7d17f"
     },
     "com.beardedplatypus.seagull.visualisation.core": {
       "version": "https://github.com/BeardedPlatypus/seagull-visualisation.core.git#upm/development",
