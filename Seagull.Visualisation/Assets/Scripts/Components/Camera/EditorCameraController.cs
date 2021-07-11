@@ -1,11 +1,11 @@
 using Cinemachine;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UniRx;
+using Zenject;
 
 namespace Seagull.Visualisation.Components.Camera
 {
-    public class EditorCameraController : MonoBehaviour, MouseControls.IMouseActions
+    public class EditorCameraController : MonoBehaviour
     {
         [SerializeField] private float zoomFactor = 0.005F;
         [SerializeField] private float panFactor = 0.005F;
@@ -13,16 +13,15 @@ namespace Seagull.Visualisation.Components.Camera
         [SerializeField] private float rotationFactor = 0.005F;
 
         private Transform _virtualCameraTransform;
-        private MouseControls _mouseControls;
+        private EditorCameraInputBindings _bindings;
+        
+        private int _terrainLayerMask;
 
-        [SerializeField] private bool isPanning = false;
-        [SerializeField] private bool isAlternativeMove  = false;
-        [SerializeField] private bool isRotating = false;
-
-        [CanBeNull]
-        [SerializeField] private Vector3? orbitCenter = null;
-
-        private int terrainLayerMask;
+        [Inject]
+        private void Init(EditorCameraInputBindings bindings)
+        {
+            _bindings = bindings;
+        }
         
         private void Awake()
         {
@@ -32,77 +31,81 @@ namespace Seagull.Visualisation.Components.Camera
 
         private void Start()
         {
-            terrainLayerMask = LayerMask.GetMask("Terrain");
+            _terrainLayerMask = LayerMask.GetMask("Terrain");
+
+            ConfigureSubscriptions();
         }
 
-        private void OnEnable()
+        private void ConfigureSubscriptions()
         {
-            if (_mouseControls == null)
-            {
-                _mouseControls = new MouseControls();
-                _mouseControls.Mouse.SetCallbacks(this);
-            }
-            
-            _mouseControls.Mouse.Enable();
+            _bindings.Zoom.Subscribe(OnZoom)
+                          .AddTo(this);
+            _bindings.Rotate.Subscribe(OnRotate)
+                            .AddTo(this);
+            _bindings.Orbit.Subscribe(OnOrbit)
+                           .AddTo(this);
+            _bindings.PanXZ.Subscribe(OnPanXZ)
+                           .AddTo(this);
+            _bindings.PanXY.Subscribe(OnPanXY)
+                           .AddTo(this);
         }
-
-        private void OnDisable()
+        
+        private void OnZoom(float zoom)
         {
-            _mouseControls.Mouse.Disable();
+            var localTranslation = new Vector3(0F, 0F, zoom * zoomFactor);
+            _virtualCameraTransform.Translate(localTranslation);
         }
-
-        public void OnDrag(InputAction.CallbackContext context)
+        
+        private void OnRotate(Vector2 inputTranslation)
         {
-            if (isRotating)
-            {
-                if (!isAlternativeMove) HandleOrbit(context);
-                else HandleRotate(context);
-            }
-            else if (isPanning)
-            {
-                if (!isAlternativeMove) HandlePanXZ(context);
-                else HandlePanXY(context);
-            }
-        }
-
-        private void HandleOrbit(InputAction.CallbackContext context)
-        {
-            if (!orbitCenter.HasValue) return;
-            
-            Vector2 translation = context.ReadValue<Vector2>() * orbitFactor;
-            
-            var worldX = _virtualCameraTransform.TransformVector(Vector3.left);
-            _virtualCameraTransform.RotateAround(orbitCenter.Value, worldX, translation.y);
-            
-            _virtualCameraTransform.RotateAround(orbitCenter.Value, Vector3.up, translation.x);
-        }
-
-        private void HandleRotate(InputAction.CallbackContext context)
-        {
-            Vector2 translation = context.ReadValue<Vector2>() * rotationFactor;
+            Vector2 translation = inputTranslation * rotationFactor;
 
             _virtualCameraTransform.Rotate(Vector3.down, translation.x, Space.World);
             _virtualCameraTransform.Rotate(Vector3.right, translation.y, Space.Self);
         }
         
-        private void HandlePanXY(InputAction.CallbackContext context)
+        private void OnOrbit(Vector2 inputTranslation)
         {
-            Vector2 translation = context.ReadValue<Vector2>() * panFactor;
+            Vector2 translation = inputTranslation * orbitFactor;
+
+            var orbitCenter = CalculateOrbitCentre();
+            var worldX = _virtualCameraTransform.TransformVector(Vector3.left);
+            _virtualCameraTransform.RotateAround(orbitCenter, worldX, translation.y);
+            
+            _virtualCameraTransform.RotateAround(orbitCenter, Vector3.up, translation.x);
+        }
+        
+        private Vector3 CalculateOrbitCentre()
+        {
+            Vector3 direction = _virtualCameraTransform.TransformDirection(Vector3.forward);
+            const float maxDistance = 10F;
+
+            Vector3 origin = _virtualCameraTransform.position;
+
+            return Physics.Raycast(origin, direction, out var hit, maxDistance, _terrainLayerMask) 
+                ? hit.point 
+                : origin + maxDistance * direction;
+        }
+
+        
+        private void OnPanXY(Vector2 inputTranslation)
+        {
+            Vector2 translation = inputTranslation * panFactor;
 
             var localTranslation = new Vector3(-translation.x, -translation.y, 0F);
             _virtualCameraTransform.Translate(localTranslation);
         }
         
-        private void HandlePanXZ(InputAction.CallbackContext context)
+        private void OnPanXZ(Vector2 inputTranslation)
         {
-            Vector2 translation = context.ReadValue<Vector2>() * panFactor;
+            Vector2 translation = inputTranslation * panFactor;
 
             var xAxisTranslation = new Vector3(-translation.x, 0F, 0);
             var zAxisTranslation = CalculateProjectedZDirection() * -translation.y;
 
             _virtualCameraTransform.Translate(xAxisTranslation + zAxisTranslation);
         }
-
+        
         private Vector3 CalculateProjectedZDirection()
         {
             var worldForward = _virtualCameraTransform.TransformDirection(Vector3.forward);
@@ -110,43 +113,5 @@ namespace Seagull.Visualisation.Components.Camera
 
             return _virtualCameraTransform.InverseTransformDirection(worldForward.normalized);
         }
-
-        public void OnZoom(InputAction.CallbackContext context)
-        {
-            var scroll = context.ReadValue<float>();
-            if (scroll == 0F) return;
-
-            var localTranslation = new Vector3(0F, 0F, scroll * zoomFactor);
-            _virtualCameraTransform.Translate(localTranslation);
-        }
-
-        public void OnRotateActive(InputAction.CallbackContext context)
-        {
-            
-            var newIsRotating = context.ReadValue<float>() != 0F;
-
-            if (!isRotating && newIsRotating) CalculateOrbitFocus();
-
-            isRotating = newIsRotating;
-        }
-
-        private void CalculateOrbitFocus()
-        {
-            var direction = _virtualCameraTransform.TransformDirection(Vector3.forward);
-            const float maxDistance = 10F;
-
-            var origin = _virtualCameraTransform.position;
-
-            orbitCenter = 
-                Physics.Raycast(origin, direction, out var hit, maxDistance, terrainLayerMask)
-                ? hit.point 
-                : origin + maxDistance * direction;
-        }
-
-        public void OnAlternativeMoveActive(InputAction.CallbackContext context) =>
-            isAlternativeMove = context.ReadValue<float>() != 0F;
-        
-        public void OnPanActive(InputAction.CallbackContext context) =>
-            isPanning = context.ReadValue<float>() != 0F;
     }
 }

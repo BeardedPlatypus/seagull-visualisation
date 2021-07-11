@@ -349,9 +349,6 @@ MonoBehaviour:
   panFactor: 0.005
   orbitFactor: 0.05
   rotationFactor: 0.025
-  isPanning: 0
-  isAlternativeMove: 0
-  isRotating: 0
 --- !u!1 &918390025
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,6 +453,7 @@ GameObject:
   - component: {fileID: 980253455}
   - component: {fileID: 980253454}
   - component: {fileID: 980253453}
+  - component: {fileID: 980253456}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -490,6 +488,7 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 980253453}
+  - {fileID: 980253456}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -521,6 +520,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &980253456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980253452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b120873f7c1f6444b92e27221da8100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1448580355
 GameObject:
   m_ObjectHideFlags: 3
