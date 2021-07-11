@@ -9,6 +9,8 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
 {
     public sealed class SceneTransitionFactory
     {
+        private const string ProjectEditorSceneName = "ProjectEditor";
+
         private readonly IRecentProjectService _recentProjectService;
         private readonly IProjectService _projectService;
 
@@ -33,9 +35,7 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
                 yield break;
             }
 
-            return new SceneTransitionDescription("ProjectEditor", 
-                                                  PreLoad(), 
-                                                  PostLoad());
+            return new SceneTransitionDescription(ProjectEditorSceneName, PreLoad(), PostLoad());
         }
 
         public ISceneTransitionDescription GetCreateProjectTransition(NewProjectPage.State state)
@@ -54,9 +54,7 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
                 yield break;
             }
 
-            return new SceneTransitionDescription("ProjectEditor", 
-                                                  PreLoad(), 
-                                                  PostLoad());
+            return new SceneTransitionDescription(ProjectEditorSceneName, PreLoad(), PostLoad());
         }
     }
 }
