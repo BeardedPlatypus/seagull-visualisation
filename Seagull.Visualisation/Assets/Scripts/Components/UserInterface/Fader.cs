@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Seagull.Visualisation.Components.Loading
+namespace Seagull.Visualisation.Components.UserInterface
 {
     /// <summary>
     /// <see cref="Fader"/> is a behaviour to fade an <see cref="Image"/>
