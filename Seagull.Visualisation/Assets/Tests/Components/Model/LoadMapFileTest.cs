@@ -11,7 +11,7 @@ namespace Seagull.Visualisation.Tests.Components.Model
     public class LoadMapFileTest
     {
         [Test]
-        public void LoadMapFileTestSimplePasses()
+        public void LoadMapFile_RetrievesCorrectValues()
         {
             var transformationService = new CoordinateSystemTransformationService();
             var netcdfStrategy = new ModelRepositoryCreationStrategyNetCDF(transformationService, 
