@@ -28,7 +28,7 @@
       "dependencies": {
         "com.beardedplatypus.fsharp.core": "5.0.2"
       },
-      "hash": "0a8022679024d65af52566e9c58634b0844269b3"
+      "hash": "086021c9f87d9617726e7054263129bcd4f338f1"
     },
     "com.beardedplatypus.geoapi.coordinatesystems": {
       "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/geoapi.coordinatesystems",
@@ -78,9 +78,10 @@
         "com.beardedplatypus.pathlib": "0.9.6",
         "com.beardedplatypus.brutile": "3.1.3",
         "com.beardedplatypus.imagesharp": "1.0.3",
-        "com.beardedplatypus.projnet4geoapi": "1.4.1"
+        "com.beardedplatypus.projnet4geoapi": "1.4.1",
+        "com.beardedplatypus.functional.netcdf": "0.1.1"
       },
-      "hash": "8b801819f7a8b22bb01afe33a74885ce71d16380"
+      "hash": "07a18bf764833682022a3cbff0f8b3cdaa2b338c"
     },
     "com.neuecc.unirx": {
       "version": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
