@@ -97,7 +97,7 @@
       "dependencies": {}
     },
     "com.unity.cinemachine": {
-      "version": "2.6.10",
+      "version": "2.6.11",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -130,7 +130,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.11",
+      "version": "2.0.12",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -231,7 +231,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.29",
+      "version": "1.1.30",
       "depth": 0,
       "source": "registry",
       "dependencies": {
