@@ -53,13 +53,6 @@
       "dependencies": {},
       "hash": "2cd4ceccc6961b313bfb052b24c5feccb93eb02c"
     },
-    "com.beardedplatypus.newtonsoft.json": {
-      "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/json",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "6d6f022b48f5859cb0a3663d42c32d740ca67408"
-    },
     "com.beardedplatypus.pathlib": {
       "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/pathlib",
       "depth": 0,
@@ -84,12 +77,11 @@
         "com.beardedplatypus.fsharp.core": "5.0.2",
         "com.beardedplatypus.pathlib": "0.9.6",
         "com.beardedplatypus.brutile": "3.1.3",
-        "com.beardedplatypus.newtonsoft.json": "13.0.1",
         "com.beardedplatypus.imagesharp": "1.0.3",
         "com.beardedplatypus.projnet4geoapi": "1.4.1",
         "com.beardedplatypus.functional.netcdf": "0.1.2"
       },
-      "hash": "3e870f057eb8613e1bd036313bb944ec061a8607"
+      "hash": "adfda098896a3cb3a7e0af51283c510b94722df2"
     },
     "com.neuecc.unirx": {
       "version": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
@@ -112,10 +104,13 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "1.9.0",
+      "version": "1.13.5",
       "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.0",
+        "com.unity.services.core": "1.0.1"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.ext.nunit": {
@@ -164,23 +159,32 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "2.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.render-pipelines.core": {
-      "version": "10.6.0",
+      "version": "10.7.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.ugui": "1.0.0"
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.universal": {
-      "version": "10.6.0",
+      "version": "10.7.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.mathematics": "1.1.0",
-        "com.unity.render-pipelines.core": "10.6.0",
-        "com.unity.shadergraph": "10.6.0"
+        "com.unity.render-pipelines.core": "10.7.0",
+        "com.unity.shadergraph": "10.7.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -191,12 +195,21 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.shadergraph": {
-      "version": "10.6.0",
+    "com.unity.services.core": {
+      "version": "1.0.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.render-pipelines.core": "10.6.0",
+        "com.unity.modules.unitywebrequest": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.shadergraph": {
+      "version": "10.7.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "10.7.0",
         "com.unity.searcher": "4.3.2"
       },
       "url": "https://packages.unity.com"
