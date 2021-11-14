@@ -28,7 +28,7 @@ namespace Seagull.Visualisation.Components.Model
             var retrieveVertices = Observable.Start(RetrieveVertices);
             Observable.WhenAll(retrieveVertices)
                       .ObserveOnMainThread()
-                      .Subscribe(_ => MessageBroker.Default.Publish(new LoadingIndication.StopMessage()));
+                      .Subscribe(HandleLoadedVertices);
         }
 
         private Vertex2D[] RetrieveVertices() =>
@@ -38,5 +38,10 @@ namespace Seagull.Visualisation.Components.Model
                 .First()
                 .RetrieveVertices()
                 .ToArray();
+
+        private void HandleLoadedVertices(Vertex2D[][] array)
+        {
+            MessageBroker.Default.Publish(new LoadingIndication.StopMessage());
+        }
     }
 }
