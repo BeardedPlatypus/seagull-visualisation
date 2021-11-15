@@ -1,14 +1,30 @@
 {
-    "name": "MouseControls",
+    "name": "CameraInputActions",
     "maps": [
         {
-            "name": "Mouse",
-            "id": "714534af-4dee-4e2a-b0eb-1ed6bce26686",
+            "name": "Camera",
+            "id": "fc6c3c74-e078-4e35-9082-fe9e0abc0ef9",
             "actions": [
                 {
-                    "name": "PanActive",
+                    "name": "OrbitActive",
                     "type": "PassThrough",
-                    "id": "807e668c-22ea-48ac-8ee2-1afacbbb53d0",
+                    "id": "edebc6ba-b975-4121-94c6-8301271829f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "TranslateActive",
+                    "type": "PassThrough",
+                    "id": "ed9fb926-f540-4644-925b-5d77fcd61d9a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "TranslateAlt",
+                    "type": "PassThrough",
+                    "id": "487972e7-1353-4ef3-9cb6-237cab0973ed",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -16,7 +32,7 @@
                 {
                     "name": "Drag",
                     "type": "PassThrough",
-                    "id": "19ad1943-db14-49c5-81c9-1ee424d1c72a",
+                    "id": "ef8c02c8-650d-4113-ae8e-df304ddbf3b1",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -24,32 +40,27 @@
                 {
                     "name": "Zoom",
                     "type": "PassThrough",
-                    "id": "a71d16a3-7d5b-462d-9689-43c724793af1",
+                    "id": "fccb47b7-7786-4232-a49d-452a2721b684",
                     "expectedControlType": "Axis",
-                    "processors": "Normalize(min=-1,max=1)",
-                    "interactions": ""
-                },
-                {
-                    "name": "RotateActive",
-                    "type": "PassThrough",
-                    "id": "63851f1f-84a6-4510-be48-25beb0560357",
-                    "expectedControlType": "Button",
-                    "processors": "Normalize(min=-1,max=1)",
-                    "interactions": ""
-                },
-                {
-                    "name": "AlternativeMoveActive",
-                    "type": "PassThrough",
-                    "id": "6499118a-b06f-462f-98c2-e37b126abdbd",
-                    "expectedControlType": "Button",
-                    "processors": "Normalize(min=-1,max=1)",
+                    "processors": "",
                     "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "4de4cf43-3ca4-4a75-99af-72f72a4cc9cb",
+                    "id": "0436fd18-031b-47ed-b0de-76d4838b361e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OrbitActive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f8e60cd-1f47-48b7-aa33-55296c17f8bb",
                     "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
@@ -60,7 +71,7 @@
                 },
                 {
                     "name": "",
-                    "id": "069d4306-8a42-460b-932f-c1dbaf6a583e",
+                    "id": "601e1bbc-9727-4447-a624-131763c36704",
                     "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "Normalize(min=-1,max=1)",
@@ -71,34 +82,23 @@
                 },
                 {
                     "name": "",
-                    "id": "457d6b27-6e2f-4628-b793-8250ae108ca8",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PanActive",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0b30b89d-e79b-4a0f-a949-a6419b010065",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateActive",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5d3f75f0-419d-49df-9088-05c374206540",
+                    "id": "e1694a49-2b83-419f-a972-c06e042845b5",
                     "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "AlternativeMoveActive",
+                    "action": "TranslateAlt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d65d7c9a-d06a-4cd1-ade8-629c7ef4ef6a",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TranslateActive",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -53,6 +53,34 @@
       "dependencies": {},
       "hash": "2cd4ceccc6961b313bfb052b24c5feccb93eb02c"
     },
+    "com.beardedplatypus.orbit-camera.core": {
+      "version": "https://github.com/BeardedPlatypus/orbit-camera.git#upm/core",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.neuecc.unirx": "7.1.0"
+      },
+      "hash": "00e1e941c513d89181fdb416d7bc44b419e6bb78"
+    },
+    "com.beardedplatypus.orbit-camera.presets": {
+      "version": "https://github.com/BeardedPlatypus/orbit-camera.git#upm/presets",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.beardedplatypus.orbit-camera.core": "0.1.0"
+      },
+      "hash": "f613477f287eb54765b8e30ca68738e52b0f4323"
+    },
+    "com.beardedplatypus.orbit-camera.zenject": {
+      "version": "https://github.com/BeardedPlatypus/orbit-camera.git#upm/zenject",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.beardedplatypus.orbit-camera.core": "0.1.0",
+        "com.beardedplatypus.orbit-camera.presets": "0.1.0"
+      },
+      "hash": "0b5624b4578abb6eb69ad6f0776fded3deeb4ea3"
+    },
     "com.beardedplatypus.pathlib": {
       "version": "https://github.com/BeardedPlatypus/upm-packages.git#upm/pathlib",
       "depth": 0,
