@@ -1,5 +1,6 @@
 using System;
 using BeardedPlatypus.OrbitCamera.Core;
+using Seagull.Visualisation.Components.Camera.Messages;
 using Seagull.Visualisation.Components.Common;
 using UniRx;
 using UnityEngine;
@@ -43,37 +44,55 @@ namespace Seagull.Visualisation.Components.Camera
 
         private void ConfigureObservables()
         {
+            IObservable<bool> isActive = 
+                MessageBroker.Default.Receive<SetIsActiveMessage>()
+                                     .Select(msg => msg.Value)
+                                     .DistinctUntilChanged()
+                                     .StartWith(false);
+            
             IObservable<Vector2> dragStream = _inputActions.Camera.Drag.ActionAsObservable()
                 .Select(InterpretAs<Vector2>);
 
-            ConfigureOrbitObservable(dragStream);
-            ConfigureTranslateObservable(dragStream);
-            ConfigureZoomObservable();
+            ConfigureOrbitObservable(dragStream, isActive);
+            ConfigureTranslateObservable(dragStream, isActive);
+            ConfigureZoomObservable(isActive);
 
-            ConfigureSetObservables();
+            ConfigureSetObservables(isActive);
         }
         
-        private void ConfigureOrbitObservable(IObservable<Vector2> dragStream)
+        private void ConfigureOrbitObservable(IObservable<Vector2> dragStream,
+                                              IObservable<bool> isActiveStream)
         {
 
-            IObservable<bool> isOrbitingStream = _inputActions.Camera.OrbitActive.ActionAsObservable()
-                .Select(InterpretAsBool)
-                .DistinctUntilChanged();
+            IObservable<bool> isOrbitingStream = 
+                _inputActions.Camera.OrbitActive.ActionAsObservable()
+                                                .Select(InterpretAsBool)
+                                                .DistinctUntilChanged();
 
-            Orbit = isOrbitingStream.CombineLatest(dragStream, (isActive, direction) => (isActive, direction))
+            IObservable<bool> isOrbitingAndActiveStream =
+                isOrbitingStream.CombineLatest(isActiveStream, (isOrbiting, isActive) => isOrbiting && isActive)
+                                .DistinctUntilChanged();
+
+            Orbit = isOrbitingAndActiveStream
+                .CombineLatest(dragStream, (isActive, direction) => (isActive, direction))
                 .Where(x => x.isActive)
                 .Select(x => x.direction);
         }
 
-        private void ConfigureTranslateObservable(IObservable<Vector2> dragStream)
+        private void ConfigureTranslateObservable(IObservable<Vector2> dragStream,
+                                                  IObservable<bool> isActiveStream)
         {
             IObservable<bool> isTranslatingStream = _inputActions.Camera.TranslateActive.ActionAsObservable()
                 .Select(InterpretAsBool)
+                .DistinctUntilChanged()
+                .CombineLatest(isActiveStream, (isTranslating, isActive) => isTranslating && isActive)
                 .DistinctUntilChanged();
 
             IObservable<bool> isAlternativeStream = _inputActions.Camera.TranslateAlt.ActionAsObservable()
                 .Select(InterpretAsBool)
                 .StartWith(false)
+                .DistinctUntilChanged()
+                .CombineLatest(isActiveStream, (isAltTranslating, isActive) => isAltTranslating && isActive)
                 .DistinctUntilChanged();
 
             Translate = isAlternativeStream
@@ -87,10 +106,15 @@ namespace Seagull.Visualisation.Components.Camera
             isAlt ? new Vector3(dragDirection.x, dragDirection.y, 0F)
                   : new Vector3(dragDirection.x, 0F, dragDirection.y);
 
-        private void ConfigureZoomObservable()
+        private void ConfigureZoomObservable(IObservable<bool> isActiveStream)
         {
-            Zoom = _inputActions.Camera.Zoom.ActionAsObservable()
-                                            .Select(InterpretAs<float>);
+            IObservable<float> zoomStream = 
+                _inputActions.Camera.Zoom.ActionAsObservable()
+                                         .Select(InterpretAs<float>);
+
+            Zoom = isActiveStream.CombineLatest(zoomStream, (isActive, zoom) => (isActive, zoom))
+                                 .Where(x => x.isActive)
+                                 .Select(x => x.zoom);
         }
 
         private static T InterpretAs<T>(InputAction.CallbackContext context) where T : struct => 
@@ -98,7 +122,7 @@ namespace Seagull.Visualisation.Components.Camera
         private static bool InterpretAsBool(InputAction.CallbackContext context) => 
             context.ReadValue<float>() != 0F;
 
-        private void ConfigureSetObservables()
+        private void ConfigureSetObservables(IObservable<bool> isActive)
         {
             // In the future other streams that work with the set behaviour can be mixed in here.
             SetOrbit = Observable.Empty<Vector2>();
