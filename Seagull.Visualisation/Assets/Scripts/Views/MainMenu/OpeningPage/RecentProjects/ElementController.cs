@@ -36,7 +36,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage.RecentProjects
         {
             var path = PathLib.Paths.Create(_recentProject.Path.ToString());
             var transitionDescription = _sceneTransitionFactory.GetLoadProjectTransition(path);
-            var msg = new ChangeSceneMessage(transitionDescription);
+            var msg = new ChangeViewMessage(transitionDescription);
             MessageBroker.Default.Publish(msg);
         }
 

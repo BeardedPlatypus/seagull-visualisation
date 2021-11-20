@@ -132,7 +132,7 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
             if (State == null) return;
             
             var transitionDescription = _sceneTransitionFactory.GetCreateProjectTransition(State.Value);
-            var msg = new ChangeSceneMessage(transitionDescription);
+            var msg = new ChangeViewMessage(transitionDescription);
             MessageBroker.Default.Publish(msg);
         }
     }

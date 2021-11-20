@@ -9,13 +9,13 @@ namespace Seagull.Visualisation.Root.Components
     public sealed class LoadingInstaller : MonoInstaller
     {
         /// <summary>
-        /// The <see cref="sceneTransitionManager"/> of the scene.
+        /// The <see cref="viewTransitionManager"/> of the scene.
         /// </summary>
-        public SceneTransitionManager sceneTransitionManager;
+        public ViewTransitionManager viewTransitionManager;
         
         public override void InstallBindings()
         {
-            Container.Bind<SceneTransitionManager>().FromInstance(sceneTransitionManager);
+            Container.Bind<ViewTransitionManager>().FromInstance(viewTransitionManager);
         }
     }
 }

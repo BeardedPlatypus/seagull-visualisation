@@ -36,7 +36,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         public void OnLoadProject(IPath path)
         {
             var description = _sceneTransitionFactory.GetLoadProjectTransition(path);
-            var msg = new ChangeSceneMessage(description);
+            var msg = new ChangeViewMessage(description);
             MessageBroker.Default.Publish(msg);
         }
         

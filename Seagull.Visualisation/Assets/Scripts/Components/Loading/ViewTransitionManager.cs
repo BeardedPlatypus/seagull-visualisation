@@ -8,10 +8,10 @@ using Zenject;
 namespace Seagull.Visualisation.Components.Loading
 {
     /// <summary>
-    /// <see cref="SceneTransitionManager"/> implements the logic to transition from
+    /// <see cref="ViewTransitionManager"/> implements the logic to transition from
     /// one scene to another with the use of a loading screen.
     /// </summary>
-    public sealed class SceneTransitionManager : MonoBehaviour
+    public sealed class ViewTransitionManager : MonoBehaviour
     {
         public float fadeInTime = 0.5F; 
         public float fadeOutTime = 0.35F;
@@ -42,20 +42,21 @@ namespace Seagull.Visualisation.Components.Loading
         {
             _fader = GetComponentInChildren<Fader>();
 
-            MessageBroker.Default.Receive<ChangeSceneMessage>()
-                         .Subscribe(msg => LoadSceneAsync(msg.SceneTransitionDescription))
+            MessageBroker.Default
+                         .Receive<ChangeViewMessage>()
+                         .Subscribe(msg => LoadSceneAsync(msg.ViewTransitionDescription))
                          .AddTo(this);
         }
 
         private const string LoadScreenName = "LoadScreen";
 
-        private IEnumerator LoadNextSceneAsync(ISceneTransitionDescription sceneTransitionBehaviour)
+        private IEnumerator LoadNextSceneAsync(IViewTransitionDescription viewTransitionBehaviour)
         {
             yield return Resources.UnloadUnusedAssets();
-            yield return StartCoroutine(sceneTransitionBehaviour.PreSceneLoadCoroutine);
-            yield return _sceneLoader.LoadSceneAsync(sceneTransitionBehaviour.SceneName,
+            yield return StartCoroutine(viewTransitionBehaviour.PreSceneLoadCoroutine);
+            yield return _sceneLoader.LoadSceneAsync(viewTransitionBehaviour.SceneName,
                                                      LoadSceneMode.Additive);
-            yield return StartCoroutine(sceneTransitionBehaviour.PostSceneLoadCoroutine);
+            yield return StartCoroutine(viewTransitionBehaviour.PostSceneLoadCoroutine);
         }
 
         private IEnumerator LoadLoadingScreenAsync()
@@ -68,7 +69,7 @@ namespace Seagull.Visualisation.Components.Loading
             yield return SceneManager.UnloadSceneAsync(LoadScreenName);
         }
 
-        private void LoadSceneAsync(ISceneTransitionDescription sceneTransitionBehaviour)
+        private void LoadSceneAsync(IViewTransitionDescription viewTransitionBehaviour)
         {
             // Load loading screen
             var fadeIn = Observable.FromCoroutine(() => _fader.FadeTo(1.0F, fadeInTime));
@@ -77,7 +78,7 @@ namespace Seagull.Visualisation.Components.Loading
             fadeIn
                 .SelectMany(LoadLoadingScreenAsync)
                 .SelectMany(fadeOut)
-                .SelectMany(() => LoadNextSceneAsync(sceneTransitionBehaviour))
+                .SelectMany(() => LoadNextSceneAsync(viewTransitionBehaviour))
                 .SelectMany(fadeIn)
                 .SelectMany(UnloadLoadingScreenAsync)
                 .SelectMany(fadeOut)

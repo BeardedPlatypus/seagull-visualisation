@@ -2,9 +2,9 @@
 
 namespace Seagull.Visualisation.Components.Loading
 {
-    public class SceneTransitionDescription : ISceneTransitionDescription
+    public class ViewTransitionDescription : IViewTransitionDescription
     {
-        public SceneTransitionDescription(string sceneName, 
+        public ViewTransitionDescription(string sceneName, 
                                           IEnumerator preSceneLoadCoroutine, 
                                           IEnumerator postSceneLoadCoroutine)
         {

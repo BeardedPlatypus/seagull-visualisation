@@ -3,10 +3,10 @@
 namespace Seagull.Visualisation.Components.Loading
 {
     /// <summary>
-    /// <see cref="ISceneTransitionDescription"/> describes the variable information
-    /// necessary for the <see cref="SceneTransitionManager"/> to execute a transition.
+    /// <see cref="IViewTransitionDescription"/> describes the variable information
+    /// necessary for the <see cref="ViewTransitionManager"/> to execute a transition.
     /// </summary>
-    public interface ISceneTransitionDescription
+    public interface IViewTransitionDescription
     {
         /// <summary>
         /// Get the name of the scene to transition to. 

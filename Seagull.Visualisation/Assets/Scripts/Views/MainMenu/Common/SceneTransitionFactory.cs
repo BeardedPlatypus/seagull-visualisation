@@ -21,7 +21,7 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
             _projectService = projectService;
         }
 
-        public ISceneTransitionDescription GetLoadProjectTransition(IPath projectManifestPath)
+        public IViewTransitionDescription GetLoadProjectTransition(IPath projectManifestPath)
         {
             IEnumerator PreLoad()
             {
@@ -35,10 +35,10 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
                 yield break;
             }
 
-            return new SceneTransitionDescription(ProjectEditorSceneName, PreLoad(), PostLoad());
+            return new ViewTransitionDescription(ProjectEditorSceneName, PreLoad(), PostLoad());
         }
 
-        public ISceneTransitionDescription GetCreateProjectTransition(NewProjectPage.State state)
+        public IViewTransitionDescription GetCreateProjectTransition(NewProjectPage.State state)
         {
             IEnumerator PreLoad()
             {
@@ -54,7 +54,7 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
                 yield break;
             }
 
-            return new SceneTransitionDescription(ProjectEditorSceneName, PreLoad(), PostLoad());
+            return new ViewTransitionDescription(ProjectEditorSceneName, PreLoad(), PostLoad());
         }
     }
 }
