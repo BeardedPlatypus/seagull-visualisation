@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Seagull.Visualisation.Components.Common;
 
 namespace Seagull.Visualisation.Components.Loading
 {
@@ -14,11 +15,11 @@ namespace Seagull.Visualisation.Components.Loading
         /// <remarks>
         /// It is not guaranteed these messages are executed in order.
         /// </remarks>
-        IEnumerable<object> LoadMessages { get; }
+        IEnumerable<IPublishableMessage> LoadMessages { get; }
         
         /// <summary>
         /// Gets the messages executed after loading a view transition.
         /// </summary>
-        IEnumerable<object> PostLoadMessages { get; }
+        IEnumerable<IPublishableMessage> PostLoadMessages { get; }
     }
 }

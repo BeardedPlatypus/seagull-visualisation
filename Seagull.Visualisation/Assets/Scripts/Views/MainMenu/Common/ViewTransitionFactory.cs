@@ -3,7 +3,9 @@ using System.Collections;
 using System.Linq;
 using PathLib;
 using Seagull.Visualisation.Components.Camera.Messages;
+using Seagull.Visualisation.Components.Common;
 using Seagull.Visualisation.Components.Loading;
+using Seagull.Visualisation.Components.Loading.Messages;
 using Seagull.Visualisation.Core.Application;
 using Seagull.Visualisation.Core.Domain;
 
@@ -11,8 +13,6 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
 {
     public sealed class ViewTransitionFactory
     {
-        private const string ProjectEditorSceneName = "ProjectEditor";
-
         private readonly IRecentProjectService _recentProjectService;
         private readonly IProjectService _projectService;
 
@@ -38,8 +38,12 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
                 yield break;
             }
 
-            var loadMessages = Enumerable.Empty<object>();
-            var postLoadMessages = new[] {new SetIsActiveMessage(true)};
+            var loadMessages = Enumerable.Empty<IPublishableMessage>();
+            IPublishableMessage[] postLoadMessages =
+            {
+                new SetIsActiveMessage(true),
+                new MainMenuToggleMessage(false),
+            };
             
             return new ViewTransitionDescription(loadMessages, postLoadMessages);
         }
@@ -60,8 +64,12 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
                 yield break;
             }
 
-            var loadMessages = Enumerable.Empty<object>();
-            var postLoadMessages = new[] {new SetIsActiveMessage(true)};
+            var loadMessages = Enumerable.Empty<IPublishableMessage>();
+            IPublishableMessage[] postLoadMessages =
+            {
+                new SetIsActiveMessage(true),
+                new MainMenuToggleMessage(false),
+            };
             
             return new ViewTransitionDescription(loadMessages, postLoadMessages);
         }

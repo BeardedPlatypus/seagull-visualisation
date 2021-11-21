@@ -1,21 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Seagull.Visualisation.Components.Common;
 
 namespace Seagull.Visualisation.Components.Loading
 {
     public class ViewTransitionDescription : IViewTransitionDescription
     {
-        private readonly IReadOnlyList<object> _loadMessages;
-        private readonly IReadOnlyList<object> _postLoadMessages;
+        private readonly IReadOnlyList<IPublishableMessage> _loadMessages;
+        private readonly IReadOnlyList<IPublishableMessage> _postLoadMessages;
 
-        public ViewTransitionDescription(IEnumerable<object> loadMessages, 
-                                         IEnumerable<object> postLoadMessages)
+        public ViewTransitionDescription(IEnumerable<IPublishableMessage> loadMessages, 
+                                         IEnumerable<IPublishableMessage> postLoadMessages)
         {
             _loadMessages = loadMessages.ToArray();
             _postLoadMessages = postLoadMessages.ToArray();
         }
 
-        public IEnumerable<object> LoadMessages => _loadMessages;
-        public IEnumerable<object> PostLoadMessages => _postLoadMessages;
+        public IEnumerable<IPublishableMessage> LoadMessages => _loadMessages;
+        public IEnumerable<IPublishableMessage> PostLoadMessages => _postLoadMessages;
     }
 }

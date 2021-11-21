@@ -50,7 +50,7 @@ namespace Seagull.Visualisation.Components.Loading
         {
             foreach (var msg in viewTransitionDescription.PostLoadMessages)
             {
-                MessageBroker.Default.Publish(msg);
+                msg.Publish();
                 yield return null;
             }
         }
