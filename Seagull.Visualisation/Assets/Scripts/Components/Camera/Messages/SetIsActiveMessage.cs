@@ -1,10 +1,13 @@
+using Seagull.Visualisation.Components.Common;
+using UniRx;
+
 namespace Seagull.Visualisation.Components.Camera.Messages
 {
     /// <summary>
     /// <see cref="SetIsActiveMessage"/> is used to indicate whether to enable and
     /// disables camera controls.
     /// </summary>
-    public sealed class SetIsActiveMessage
+    public sealed class SetIsActiveMessage : IPublishableMessage
     {
         /// <summary>
         /// Creates a new <see cref="SetIsActiveMessage"/>.
@@ -16,5 +19,8 @@ namespace Seagull.Visualisation.Components.Camera.Messages
         /// Gets the value of this <see cref="SetIsActiveMessage"/>.
         /// </summary>
         public bool Value { get; }
+
+        /// <inheritdoc cref="IPublishableMessage.Publish"/>
+        public void Publish() => MessageBroker.Default.Publish(this);
     }
 }
