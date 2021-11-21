@@ -9,14 +9,14 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
 {
     public sealed class Controller : IPageController
     {
-        private readonly SceneTransitionFactory _sceneTransitionFactory;
+        private readonly ViewTransitionFactory _viewTransitionFactory;
         private readonly IDialogService _dialogService;
 
-        public Controller(SceneTransitionFactory sceneTransitionFactory,
+        public Controller(ViewTransitionFactory viewTransitionFactory,
                           IDialogService dialogService)
         {
             _dialogService = dialogService;
-            _sceneTransitionFactory = sceneTransitionFactory;
+            _viewTransitionFactory = viewTransitionFactory;
         }
 
         public IPath RequestProjectPath()
@@ -35,7 +35,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage
         
         public void OnLoadProject(IPath path)
         {
-            var description = _sceneTransitionFactory.GetLoadProjectTransition(path);
+            var description = _viewTransitionFactory.GetLoadProjectTransition(path);
             var msg = new ChangeViewMessage(description);
             MessageBroker.Default.Publish(msg);
         }

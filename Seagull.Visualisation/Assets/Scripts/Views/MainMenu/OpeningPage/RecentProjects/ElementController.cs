@@ -15,14 +15,14 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage.RecentProjects
         public TMPro.TMP_Text lastOpenedLabel;
 
         private RecentProject _recentProject;
-        private SceneTransitionFactory _sceneTransitionFactory;
+        private ViewTransitionFactory _viewTransitionFactory;
 
         [Inject]
         public void Init(RecentProject recentProject,
-                         SceneTransitionFactory sceneTransitionFactory)
+                         ViewTransitionFactory viewTransitionFactory)
         {
             _recentProject = recentProject;
-            _sceneTransitionFactory = sceneTransitionFactory;
+            _viewTransitionFactory = viewTransitionFactory;
         }
 
         private void Start()
@@ -35,7 +35,7 @@ namespace Seagull.Visualisation.Views.MainMenu.OpeningPage.RecentProjects
         public void OnClick()
         {
             var path = PathLib.Paths.Create(_recentProject.Path.ToString());
-            var transitionDescription = _sceneTransitionFactory.GetLoadProjectTransition(path);
+            var transitionDescription = _viewTransitionFactory.GetLoadProjectTransition(path);
             var msg = new ChangeViewMessage(transitionDescription);
             MessageBroker.Default.Publish(msg);
         }

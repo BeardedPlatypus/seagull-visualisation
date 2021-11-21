@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 
 namespace Seagull.Visualisation.Components.Loading
 {
@@ -9,18 +9,16 @@ namespace Seagull.Visualisation.Components.Loading
     public interface IViewTransitionDescription
     {
         /// <summary>
-        /// Get the name of the scene to transition to. 
+        /// Gets the messages executed during the loading of a view transition.
         /// </summary>
-        string SceneName { get; }
+        /// <remarks>
+        /// It is not guaranteed these messages are executed in order.
+        /// </remarks>
+        IEnumerable<object> LoadMessages { get; }
         
         /// <summary>
-        /// Get the coroutine executed before a scene is loaded.
+        /// Gets the messages executed after loading a view transition.
         /// </summary>
-        IEnumerator PreSceneLoadCoroutine { get; } 
-        
-        /// <summary>
-        /// Get the coroutine executed after a scene is loaded.
-        /// </summary>
-        IEnumerator PostSceneLoadCoroutine { get; }
+        IEnumerable<object> PostLoadMessages { get; }
     }
 }

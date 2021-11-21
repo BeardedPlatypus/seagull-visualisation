@@ -11,7 +11,7 @@ namespace Seagull.Visualisation.Root.Views
         public override void InstallBindings()
         {
             Container.BindFactory<NewProjectPage.State, NewProjectPage.State.Factory>();
-            Container.Bind<Common.SceneTransitionFactory>().AsSingle();
+            Container.Bind<Common.ViewTransitionFactory>().AsSingle();
 
             Container.Bind<OpeningPage.Controller>()
                      .To<OpeningPage.Controller>()

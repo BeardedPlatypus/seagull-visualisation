@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Linq;
 using Seagull.Visualisation.Components.UserInterface;
 using UniRx;
 using UnityEngine;
@@ -13,8 +15,8 @@ namespace Seagull.Visualisation.Components.Loading
     /// </summary>
     public sealed class ViewTransitionManager : MonoBehaviour
     {
-        public float fadeInTime = 0.5F; 
-        public float fadeOutTime = 0.35F;
+        [SerializeField] private float fadeInTime = 0.5F; 
+        [SerializeField] private float fadeOutTime = 0.35F;
 
         private Fader _fader;
 
@@ -26,18 +28,6 @@ namespace Seagull.Visualisation.Components.Loading
             _sceneLoader = sceneLoader;
         }
         
-        private void Awake()
-        {
-            GameObject[] objs = GameObject.FindGameObjectsWithTag("SceneTransitionManager");
-
-            if (objs.Length > 1)
-            {
-                Destroy(this.gameObject);
-            }
-
-            DontDestroyOnLoad(this.gameObject);
-        }
-
         private void Start()
         {
             _fader = GetComponentInChildren<Fader>();
@@ -50,18 +40,24 @@ namespace Seagull.Visualisation.Components.Loading
 
         private const string LoadScreenName = "LoadScreen";
 
-        private IEnumerator LoadNextSceneAsync(IViewTransitionDescription viewTransitionBehaviour)
+        private static IObservable<Unit> LoadNextViewAsync(IViewTransitionDescription viewTransitionBehaviour) =>
+            viewTransitionBehaviour.LoadMessages.Select(ExecuteMsg).WhenAll().ObserveOnMainThread();
+
+        private static IObservable<Unit> ExecuteMsg(object msg) =>
+            Observable.Start(() => { MessageBroker.Default.Publish(msg); });
+
+        private IEnumerator PostLoadNextViewAsync(IViewTransitionDescription viewTransitionDescription)
         {
-            yield return Resources.UnloadUnusedAssets();
-            yield return StartCoroutine(viewTransitionBehaviour.PreSceneLoadCoroutine);
-            yield return _sceneLoader.LoadSceneAsync(viewTransitionBehaviour.SceneName,
-                                                     LoadSceneMode.Additive);
-            yield return StartCoroutine(viewTransitionBehaviour.PostSceneLoadCoroutine);
+            foreach (var msg in viewTransitionDescription.PostLoadMessages)
+            {
+                MessageBroker.Default.Publish(msg);
+                yield return null;
+            }
         }
 
         private IEnumerator LoadLoadingScreenAsync()
         {
-            yield return _sceneLoader.LoadSceneAsync(LoadScreenName, LoadSceneMode.Single);
+            yield return _sceneLoader.LoadSceneAsync(LoadScreenName, LoadSceneMode.Additive);
         }
         
         private IEnumerator UnloadLoadingScreenAsync()
@@ -78,7 +74,8 @@ namespace Seagull.Visualisation.Components.Loading
             fadeIn
                 .SelectMany(LoadLoadingScreenAsync)
                 .SelectMany(fadeOut)
-                .SelectMany(() => LoadNextSceneAsync(viewTransitionBehaviour))
+                .SelectMany(LoadNextViewAsync(viewTransitionBehaviour))
+                .SelectMany(() => PostLoadNextViewAsync(viewTransitionBehaviour))
                 .SelectMany(fadeIn)
                 .SelectMany(UnloadLoadingScreenAsync)
                 .SelectMany(fadeOut)

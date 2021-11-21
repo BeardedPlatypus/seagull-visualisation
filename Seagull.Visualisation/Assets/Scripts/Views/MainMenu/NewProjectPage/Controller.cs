@@ -14,17 +14,17 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
     /// </summary>
     public sealed class Controller : IPageController
     {
-        private readonly SceneTransitionFactory _sceneTransitionFactory;
+        private readonly ViewTransitionFactory _viewTransitionFactory;
         
         /// <summary>
         /// Initialise this <see cref="Controller"/> by injecting its dependencies.
         /// </summary>
         /// <param name="newProjectStateFactory">The factory to create <see cref="State"/>.</param>
-        /// <param name="sceneTransitionFactory"></param>
+        /// <param name="viewTransitionFactory"></param>
         public Controller(State.Factory newProjectStateFactory,
-                          SceneTransitionFactory sceneTransitionFactory)
+                          ViewTransitionFactory viewTransitionFactory)
         {
-            _sceneTransitionFactory = sceneTransitionFactory;
+            _viewTransitionFactory = viewTransitionFactory;
             
             IsActive.Where(isActive => isActive)
                     .Subscribe(_ => State.Value = newProjectStateFactory.Create());
@@ -129,7 +129,7 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         {
             if (State == null) return;
             
-            var transitionDescription = _sceneTransitionFactory.GetCreateProjectTransition(State.Value);
+            var transitionDescription = _viewTransitionFactory.GetCreateProjectTransition(State.Value);
             var msg = new ChangeViewMessage(transitionDescription);
             MessageBroker.Default.Publish(msg);
         }
