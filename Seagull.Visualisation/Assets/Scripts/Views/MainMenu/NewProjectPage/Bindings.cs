@@ -17,25 +17,19 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         /// The <see cref="FileSelectionRowController"/> describing the project 
         /// location.
         /// </summary>
-        public FileSelectionRowController projectLocation;
-        
-        /// <summary>
-        /// The <see cref="FileSelectionRowController"/> describing the map file
-        /// location.
-        /// </summary>
-        public FileSelectionRowController mapFileLocation;
+        [SerializeField] private FileSelectionRowController projectLocation;
         
         /// <summary>
         /// The <see cref="Button"/> to return to the <see cref="OpeningPage"/>.
         /// </summary>
-        public Button backButton;
+        [SerializeField] private Button backButton;
         
         /// <summary>
         /// The <see cref="Button"/> to create a new project.
         /// </summary>
-        public Button createProjectButton;
+        [SerializeField] private Button createProjectButton;
         
-        public Animator animator;
+        [SerializeField] private Animator animator;
 
         private Controller _controller;
         
@@ -50,7 +44,6 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         private void Start()
         {
             projectLocation.Handler = _controller.ProjectLocationHandler;
-            mapFileLocation.Handler = _controller.MapLocationHandler;
 
             createProjectButton.OnClickAsObservable()
                                .Subscribe(_ => _controller.OnCreateProject())

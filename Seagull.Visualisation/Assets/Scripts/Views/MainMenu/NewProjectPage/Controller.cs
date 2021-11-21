@@ -32,7 +32,6 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
                     .Subscribe(_ => State.Value = null);
 
             ProjectLocationHandler = new ProjectLocationHandlerImplementation(this);
-            MapLocationHandler = new MapFileLocationHandlerImplementation(this);
         }
 
         private ReactiveProperty<State> State { get; } = new ReactiveProperty<State>(null);
@@ -40,7 +39,6 @@ namespace Seagull.Visualisation.Views.MainMenu.NewProjectPage
         public ReactiveProperty<bool> IsActive { get; } = new ReactiveProperty<bool>(false);
 
         public IFileSelectionHandler ProjectLocationHandler { get; } 
-        public IFileSelectionHandler MapLocationHandler { get; } 
 
         // TODO: see whether these can be made reactive as well
         private class ProjectLocationHandlerImplementation : IFileSelectionHandler
