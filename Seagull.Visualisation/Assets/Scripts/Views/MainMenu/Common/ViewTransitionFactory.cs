@@ -26,11 +26,11 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
         {
             IPublishableMessage[] loadMessages =
             {
-                new UpdateRecentProjectMessage(new RecentProject(projectManifestPath, DateTime.Now)),
             };
             
             IPublishableMessage[] postLoadMessages =
             {
+                new UpdateRecentProjectMessage(new RecentProject(projectManifestPath, DateTime.Now)),
                 new SetIsActiveMessage(true),
                 new MainMenuToggleMessage(false),
             };
@@ -49,11 +49,11 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
 
             IPublishableMessage[] loadMessages =
             {
-                new UpdateRecentProjectMessage(new RecentProject(state.ProjectPath, DateTime.Now)),
             };
             
             IPublishableMessage[] postLoadMessages =
             {
+                new UpdateRecentProjectMessage(new RecentProject(state.ProjectPath, DateTime.Now)),
                 new SetIsActiveMessage(true),
                 new MainMenuToggleMessage(false),
             };

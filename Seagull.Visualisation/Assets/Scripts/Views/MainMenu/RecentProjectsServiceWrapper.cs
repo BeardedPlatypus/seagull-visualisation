@@ -24,9 +24,11 @@ namespace Seagull.Visualisation.Views.MainMenu
         private void Start()
         {
             MessageBroker.Default.Receive<UpdateRecentProjectMessage>()
-                                 .Select(x => x.RecentProject)
-                                 .Subscribe(_service.UpdateRecentProject)
+                                 .Subscribe(UpdateRecentProject)
                                  .AddTo(this);
         }
+
+        private void UpdateRecentProject(UpdateRecentProjectMessage msg) =>
+            _service.UpdateRecentProject(msg.RecentProject);
     }
 }
