@@ -232,6 +232,7 @@ MonoBehaviour:
   - Common
   - MainMenu
   - EditorMenu
+  - Lighting
   - Model
   - World
   - Camera
