@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq;
 using PathLib;
 using Seagull.Visualisation.Components.Camera.Messages;
 using Seagull.Visualisation.Components.Common;
@@ -25,20 +24,11 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
 
         public IViewTransitionDescription GetLoadProjectTransition(IPath projectManifestPath)
         {
-            IEnumerator PreLoad()
+            IPublishableMessage[] loadMessages =
             {
-                yield break;
-            }
+                new UpdateRecentProjectMessage(new RecentProject(projectManifestPath, DateTime.Now)),
+            };
             
-            // TODO: move this to a message.
-            IEnumerator PostLoad()
-            {
-                var recentProject = new RecentProject(projectManifestPath, DateTime.Now);
-                _recentProjectService.UpdateRecentProject(recentProject);
-                yield break;
-            }
-
-            var loadMessages = Enumerable.Empty<IPublishableMessage>();
             IPublishableMessage[] postLoadMessages =
             {
                 new SetIsActiveMessage(true),
@@ -50,21 +40,18 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
 
         public IViewTransitionDescription GetCreateProjectTransition(NewProjectPage.State state)
         {
+            // TODO: move this to a message.
             IEnumerator PreLoad()
             {
                 yield return null;
                 _projectService.CreateProject(state.ProjectPath);
             }
 
-            IEnumerator PostLoad()
+            IPublishableMessage[] loadMessages =
             {
-                var recentProject = new RecentProject(state.ProjectPath, DateTime.Now);
-                _recentProjectService.UpdateRecentProject(recentProject);
-
-                yield break;
-            }
-
-            var loadMessages = Enumerable.Empty<IPublishableMessage>();
+                new UpdateRecentProjectMessage(new RecentProject(state.ProjectPath, DateTime.Now)),
+            };
+            
             IPublishableMessage[] postLoadMessages =
             {
                 new SetIsActiveMessage(true),
