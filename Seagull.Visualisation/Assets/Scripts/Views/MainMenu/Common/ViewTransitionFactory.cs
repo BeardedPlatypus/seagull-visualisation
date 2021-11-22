@@ -33,6 +33,7 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
                 new UpdateRecentProjectMessage(new RecentProject(projectManifestPath, DateTime.Now)),
                 new SetIsActiveMessage(true),
                 new MainMenuToggleMessage(false),
+                new EditorUserInterfaceToggleMessage(true),
             };
             
             return new ViewTransitionDescription(loadMessages, postLoadMessages);
@@ -56,6 +57,7 @@ namespace Seagull.Visualisation.Views.MainMenu.Common
                 new UpdateRecentProjectMessage(new RecentProject(state.ProjectPath, DateTime.Now)),
                 new SetIsActiveMessage(true),
                 new MainMenuToggleMessage(false),
+                new EditorUserInterfaceToggleMessage(true),
             };
             
             return new ViewTransitionDescription(loadMessages, postLoadMessages);

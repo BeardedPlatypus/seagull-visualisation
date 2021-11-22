@@ -1,0 +1,17 @@
+{
+    "name": "Seagull.Visualisation.Views.ProjectEditor.UserInterface",
+    "rootNamespace": "Seagull.Visualisation",
+    "references": [
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:87f2aa2e75a873641a817c2d1cb5ded2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
